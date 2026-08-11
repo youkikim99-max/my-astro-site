@@ -1,49 +1,34 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+// 这里不需要写 JS 逻辑，保持空白即可
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>我的移动端优先网站</title>
+  </head>
+  <body class="bg-gray-50 text-gray-900">
+    
+    <!-- 容器：手机端默认全宽，加一点内边距 -->
+    <main class="px-4 py-8 max-w-2xl mx-auto">
+      
+      <!-- 标题：手机端文字稍小 (text-2xl)，电脑端变大 (md:text-4xl) -->
+      <h1 class="text-2xl font-bold mb-4 md:text-4xl md:mb-6">
+        你好，移动端优先！
+      </h1>
+
+      <!-- 正文：手机端字号适中 (text-base)，行高舒适 (leading-relaxed) -->
+      <p class="text-base leading-relaxed mb-6 text-gray-600">
+        这是一个基于 Tailwind CSS 构建的响应式页面。
+        试着缩放浏览器窗口，或者在手机上查看，你会发现布局会自动适应。
+      </p>
+
+      <!-- 按钮：点击区域至少 44px 高 (py-3 px-6)，圆角美观 -->
+      <button class="bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+        点击我试试
+      </button>
+
+    </main>
+  </body>
 </html>
