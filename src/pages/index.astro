@@ -1,5 +1,10 @@
 ---
-// 这里不需要写 JS 逻辑，保持空白即可
+// 1. 引入 Astro 的内容读取功能
+import { getCollection } from 'astro:content';
+
+// 2. 获取 'blog' 集合下的所有文章，并按日期倒序排列
+const posts = await getCollection('blog');
+posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
 <html lang="zh-CN">
@@ -10,24 +15,48 @@
   </head>
   <body class="bg-gray-50 text-gray-900">
     
-    <!-- 容器：手机端默认全宽，加一点内边距 -->
     <main class="px-4 py-8 max-w-2xl mx-auto">
       
-      <!-- 标题：手机端文字稍小 (text-2xl)，电脑端变大 (md:text-4xl) -->
+      <!-- 标题部分 -->
       <h1 class="text-2xl font-bold mb-4 md:text-4xl md:mb-6">
         你好，移动端优先！
       </h1>
-
-      <!-- 正文：手机端字号适中 (text-base)，行高舒适 (leading-relaxed) -->
-      <p class="text-base leading-relaxed mb-6 text-gray-600">
-        这是一个基于 Tailwind CSS 构建的响应式页面。
-        试着缩放浏览器窗口，或者在手机上查看，你会发现布局会自动适应。
+      
+      <p class="text-base leading-relaxed mb-8 text-gray-600">
+        这是我的个人博客，基于 Astro 和 Tailwind CSS 构建。
+        以下是我发布的最新文章：
       </p>
 
-      <!-- 按钮：点击区域至少 44px 高 (py-3 px-6)，圆角美观 -->
-      <button class="bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors">
-        点击我试试
-      </button>
+      <!-- 3. 这里是新增的：文章列表循环 -->
+      <div class="space-y-8">
+        {posts.map((post) => (
+          <article class="border-b border-gray-200 pb-6 last:border-0">
+            <!-- 文章标题链接 -->
+            <h2 class="text-xl font-bold mb-2">
+              <a href={`/blog/${post.id}/`} class="hover:text-blue-600 transition-colors">
+                {post.data.title}
+              </a>
+            </h2>
+            
+            <!-- 文章日期 -->
+            <time class="text-sm text-gray-500 mb-3 block">
+              {post.data.pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </time>
+            
+            <!-- 文章描述 -->
+            <p class="text-gray-700 leading-relaxed">
+              {post.data.description}
+            </p>
+            
+            <!-- 阅读更多按钮 -->
+            <div class="mt-4">
+              <a href={`/blog/${post.id}/`} class="text-blue-600 font-medium hover:underline">
+                阅读全文 →
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
 
     </main>
   </body>

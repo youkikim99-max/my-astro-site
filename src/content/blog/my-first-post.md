@@ -1,22 +1,19 @@
-\---
-
+---
 title: "2026产业深水区：AI正在从“技术狂欢”走向“价值重构”"
-
 pubDate: 2026-08-11
-
 description: "这是我使用 Astro 和 Vercel 发布的第一篇文章！"
-
 author: "Sean"
-
+slug: 'my-first-post'
 image:
+    url: "https://docs.astro.build/assets/full-logo-light.png"
+    alt: "The full Astro logo."
+tags: ["astro", "blogging", "learning"]
+---
 
-&#x20;   url: "https://docs.astro.build/assets/full-logo-light.png"
 
-&#x20;   alt: "The full Astro logo."
 
-tags: \["astro", "blogging", "learning"]
 
-\---
+
 
 
 

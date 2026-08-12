@@ -1,20 +1,37 @@
 ---
-import { type CollectionEntry, getCollection, render } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
 
+// 1. 获取所有文章数据
 export async function getStaticPaths() {
-	const posts = await getCollection('blog');
-	return posts.map((post) => ({
-		params: { slug: post.id },
-		props: post,
-	}));
+  const posts = await getCollection('blog');
+  
+  return posts.map((post) => ({
+    // 2. 关键点：这里必须使用 post.data.slug，与你 Markdown 文件里的 slug 字段对应
+    params: { slug: post.id }, 
+    props: post,
+  }));
 }
-type Props = CollectionEntry<'blog'>;
+
+type Props = {
+  data: {
+    title: string;
+    pubDate: Date;
+    description?: string;
+    author?: string;
+    image?: { url: string; alt: string };
+    tags?: string[];
+  };
+  body: string;
+  id: string;
+  collection: string;
+  data: any; // 包含 slug 等自定义字段
+};
 
 const post = Astro.props;
 const { Content } = await render(post);
 ---
 
 <BlogPost {...post.data}>
-	<Content />
+  <Content />
 </BlogPost>
