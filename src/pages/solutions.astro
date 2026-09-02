@@ -1,0 +1,133 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BackToTop from '../components/BackToTop.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+// 定义三驾马车的数据配置
+const solutions = [
+  {
+    id: 'data-mining',
+    title: '数据挖掘',
+    slogan: '看透本质，才能破局',
+    themeColor: '#1e40af', 
+    // 新增：为图片添加一个极淡的蓝色遮罩
+    overlayColor: 'rgba(30, 64, 175, 0.08)', 
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop' 
+  },
+  {
+    id: 'market-research',
+    title: '市场调查',
+    slogan: '看清战场，才敢开枪',
+    themeColor: '#4338ca', 
+    // 新增：为图片添加一个极淡的靛青色遮罩
+    overlayColor: 'rgba(67, 56, 202, 0.08)', 
+    image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=2072&auto=format&fit=crop'
+  },
+  {
+    id: 'management-consulting',
+    title: '管理咨询',
+    slogan: '方案落地，才算胜仗',
+    themeColor: '#0f766e', 
+    // 新增：为图片添加一个极淡的绿色遮罩
+    overlayColor: 'rgba(15, 118, 110, 0.08)', 
+    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2232&auto=format&fit=crop'
+  }
+];
+
+// 图标组件 (SVG) - 用于列表项
+const CheckIcon = () => `<svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+const ArrowRight = () => `<svg class="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>`;
+
+// 业务特性列表 (为了代码整洁，放在这里)
+const features = [
+  ['三源交叉验证', 'AI预测+业务规则', '7天极速交付'],
+  ['48h深度访谈', '实地走访对手', '7天3城普查'],
+  ['23天驻场陪跑', '结果对赌承诺', '资源直接嫁接']
+];
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <BaseHead title={`解决方案 - ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+  </head>
+  <body class="min-h-screen flex flex-col bg-white text-slate-800 dark:bg-gray-950 dark:text-gray-100">
+    <Header />
+
+    <!-- 核心内容区域 -->
+    <main class="flex-1 w-full">
+      
+      <!-- Hero Section -->
+      <section class="bg-white border-b border-slate-100 dark:border-gray-800">
+        <div class="max-w-7xl mx-auto px-6 py-20 md:py-28 text-center">
+          <h1 class="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">
+            核心解决方案
+          </h1>
+          <p class="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
+            从数据洞察到战略落地，全链路赋能企业增长。<br class="hidden md:block">
+            我们提供“挖掘、研究、咨询”三位一体的闭环服务。
+          </p>
+        </div>
+      </section>
+
+      <!-- Cards Section: 上图下文布局 -->
+      <section class="max-w-7xl mx-auto px-6 py-16 md:py-24">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+          {solutions.map((item, index) => (
+            <div class="group bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 dark:border-gray-800 flex flex-col h-full">
+
+             {/* 上部图片区：增加了遮罩层 */}
+<div class="relative h-48 overflow-hidden bg-slate-100">
+  <img 
+    src={item.image} 
+    alt={item.title} 
+    class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+    loading="lazy"
+  />
+  {/* 新增：遮罩层，颜色由数据中的 overlayColor 控制 */}
+  <div 
+    class="absolute inset-0 pointer-events-none" 
+    style={`background-color: ${item.overlayColor};`}
+  ></div>
+</div> 
+
+
+              {/* 下部内容区 */}
+              <div class="p-8 flex-1 flex flex-col">
+                
+                {/* 标题 */}
+                <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">{item.title}</h3>
+                
+                {/* Slogan (核心色) */}
+                <p class="text-sm font-medium mb-6" style={`color: ${item.themeColor}`}>
+                  {item.slogan}
+                </p>
+
+                {/* 卖点列表 */}
+                <ul class="space-y-3 mb-8 flex-1">
+                  {features[index].map((feature) => (
+                    <li class="flex items-start text-slate-600 dark:text-slate-300 text-sm">
+                      <span set:html={CheckIcon()}></span>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+
+                {/* 底部链接 (核心色) */}
+                <a href={`/solutions/${item.id}`} class="inline-flex items-center font-semibold hover:opacity-80 transition-opacity mt-auto" style={`color: ${item.themeColor}`}>
+                  查看详情 <span set:html={ArrowRight()}></span>
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+    </main>
+
+    <Footer />
+    <BackToTop />
+  </body>
+</html>

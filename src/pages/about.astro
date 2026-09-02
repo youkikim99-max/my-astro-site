@@ -1,63 +1,126 @@
 ---
-import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
-import Layout from '../layouts/BlogPost.astro';
+// 1. 导入基础组件
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BackToTop from '../components/BackToTop.astro';
+
+// 2. 定义时间轴数据
+const milestones = [
+  { 
+    year: '2026', 
+    tag: '国际化战略元年', 
+    title: '全球启航 · 助力出海', 
+    desc: '全面支持中国企业出海。执行网络覆盖美洲、欧洲、中东及东南亚，无论您的业务拓展至何处，我们都能提供跨地域、跨文化的精准落地调研与决策支持。' 
+  },
+  { 
+    year: '2024', 
+    tag: '设立香港分公司', 
+    title: '跨越山海 · 立足香江', 
+    desc: '落子大湾区核心，建立连接国际资本的桥头堡。以香港为窗口，不仅服务大中华区，更开始辐射东南亚及亚太市场。' 
+  },
+  { 
+    year: '2020', 
+    tag: 'AI与大数据实验室成立', 
+    title: '数智融合 · 技术重塑', 
+    desc: '面对时代巨变，我们率先引入AI预测模型与自动化数据挖掘技术。从“人力密集型”向“技术驱动型”转型，让洞察更极速、更精准。' 
+  },
+  { 
+    year: '2018', 
+    tag: '深耕移动互联网领域', 
+    title: '拥抱互联 · 头部信赖', 
+    desc: '成为众多互联网巨头的核心合作伙伴。服务客户涵盖美团、滴滴、字节跳动、阿里巴巴、好未来、猿辅导等行业领军者。' 
+  },
+  { 
+    year: '2016', 
+    tag: '上海分公司成立', 
+    title: '东进魔都 · 深耕华东', 
+    desc: '进驻中国经济中心，服务众多世界500强及独角兽企业。在激烈的市场竞争中打磨出了极具竞争力的“实战派”咨询方法论。' 
+  },
+  { 
+    year: '2014', 
+    tag: '确立核心方法论', 
+    title: '定义标准 · 4U模型', 
+    desc: '总结实战经验，正式提出 Usearch 独有的“4U”研究模型。这不仅是我们的标准，更是我们对客户“客观、纯净、独特”的承诺。' 
+  },
+  { 
+    year: '2012', 
+    tag: '北京总公司成立', 
+    title: '初心启航 · 扎根北京', 
+    desc: '故事始于北京。怀揣着“用数据还原真相”的初心，我们建立了第一支专业研究团队，开启了用数据辅助商业决策的征程。' 
+  }
+];
 ---
 
-<Layout
-	title="About Me"
-	description="Lorem ipsum dolor sit amet"
-	pubDate={new Date('August 08 2021')}
-	heroImage={AboutHeroImage}
->
-	<p>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-		labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo
-		viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam
-		adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus
-		et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus
-		vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque
-		sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
-	</p>
+<BaseHead title="关于我们 - 发展历程" />
+<Header />
 
-	<p>
-		Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non
-		tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non
-		blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna
-		porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis
-		massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc.
-		Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis
-		bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra
-		massa massa ultricies mi.
-	</p>
+<main class="bg-gray-50 min-h-screen pb-20">
+  <!-- 顶部标题区 -->
+  <div class="text-center pt-20 pb-16 px-4">
+    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 tracking-tight">发展历程</h1>
+    <p class="text-gray-500 max-w-2xl mx-auto text-lg">
+      从北京胡同到纽约华尔街，我们用数据丈量商业世界。<br class="hidden md:block" />每一步，都算数。
+    </p>
+  </div>
 
-	<p>
-		Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl
-		suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet
-		nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae
-		turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem
-		dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat
-		semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus
-		vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum
-		facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam
-		vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla
-		urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
-	</p>
+  <!-- 时间轴容器 -->
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- 中间垂直线 -->
+    <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-gray-200 -ml-px md:-translate-x-1/2"></div>
 
-	<p>
-		Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper
-		viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc
-		scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur
-		gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus
-		pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim
-		blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id
-		cursus metus aliquam eleifend mi.
-	</p>
+    <!-- 循环渲染卡片 -->
+    {milestones.map((item, index) => (
+      <div class={`relative mb-16 md:mb-24 flex flex-col md:flex-row ${index % 2 === 0 ? 'md:flex-row-reverse' : ''} items-start`}>
+        
+        <!-- 中间圆点 -->
+        <div class="absolute left-4 md:left-1/2 w-4 h-4 bg-blue-600 rounded-full border-4 border-white shadow-md -ml-2 md:-translate-x-1/2 z-10 mt-1.5"></div>
 
-	<p>
-		Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta
-		nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam
-		tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci
-		ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar
-		proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
-	</p>
-</Layout>
+        <!-- 内容卡片区域 -->
+        <div class="w-full md:w-1/2 pl-12 md:pl-0 ${index % 2 === 0 ? 'md:pl-12' : 'md:pr-12'}">
+          
+          <!-- 卡片本体 -->
+          <div class="relative bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group overflow-hidden">
+            
+            <!-- 【核心修改】年份背景水印 -->
+            <!-- 修改点：
+                 1. 去掉了负边距 (-top-6 -right-4)，改为 bottom-4 right-4 (右下角)
+                 2. 字号改为 text-[7rem] (约112px)，比之前大一点但位置更好
+                 3. 颜色改为 text-gray-50 (极淡的灰色)，避免抢眼
+                 4. 增加 opacity-50，确保文字清晰可见
+            -->
+            <!-- 修改点：bottom-12 (往上提)，right-4 (靠右对齐) -->
+            <span class="absolute bottom-28 right-4 text-[5rem] leading-none font-black text-gray-200 select-none pointer-events-none z-0 group-hover:text-blue-100 transition-all duration-500">
+            {item.year}
+
+            </span>
+
+            <!-- 内容层 (z-10 确保文字在年份上面) -->
+            <div class="relative z-10">
+              <!-- 标签 -->
+              <span class="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-wider text-blue-600 uppercase bg-blue-50 rounded-full">
+                {item.tag}
+              </span>
+              
+              <!-- 标题 -->
+              <h3 class="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors">
+                {item.title}
+              </h3>
+              
+              <!-- 描述 -->
+              <p class="text-gray-600 leading-relaxed text-sm md:text-base">
+                {item.desc}
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    ))}
+
+  </div>
+</main>
+
+<Footer />
+<BackToTop />

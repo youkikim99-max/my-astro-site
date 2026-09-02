@@ -1,114 +1,221 @@
 ---
-import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
-import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import BackToTop from '../../components/BackToTop.astro';
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+// 获取所有博客文章并按日期排序
+const allPosts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+
+// 拆分数据：前3篇作为精选，剩下的作为列表
+const featuredPosts = allPosts.slice(0, 3);
+const listPosts = allPosts.slice(3); 
+
+// 辅助函数：修正图片路径
+const fixImagePath = (path) => {
+  if (!path) return '';
+  if (path.includes('../assets/') || path.includes('..\\assets\\')) {
+    return path.replace(/^(\.\.\/)+/, '/src/');
+  }
+  return path;
+};
+
+// 【核心】统一分类名称与样式配置（仅三类：技术前沿/商业管理/实战案例）
+const normalizeCategory = (tag) => {
+  const t = (tag || '').toLowerCase();
+  
+  // 1. 技术前沿 (蓝色系)
+  if (t.includes('ai') || t.includes('技术') || t.includes('前沿') || t.includes('半导体') || t.includes('科技') || t.includes('数字')) {
+    return { name: '技术前沿', class: 'bg-blue-50 text-blue-700 border border-blue-100' };
+  }
+  
+  // 2. 商业管理 (黑金系)
+  if (t.includes('商业') || t.includes('管理') || t.includes('出海') || t.includes('新能源') || t.includes('组织') || t.includes('人才') || t.includes('战略') || t.includes('品牌')) {
+    return { name: '商业管理', class: 'bg-gray-900 text-yellow-400 border border-gray-800' };
+  }
+  
+  // 3. 实战案例 (橙色系)
+  if (t.includes('案例') || t.includes('实战') || t.includes('方法论')) {
+    return { name: '实战案例', class: 'bg-orange-50 text-orange-700 border border-orange-100' };
+  }
+
+  // 无法识别的 tag 默认归入商业管理，避免出现其他类别
+  return { name: '商业管理', class: 'bg-gray-900 text-yellow-400 border border-gray-800' };
+};
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 960px;
-			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
-			}
-			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
-				}
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-		</main>
-		<Footer />
-	</body>
-</html>
+<BaseHead title="洞察中心 | 永思洞察" description="探索 AI 时代的商业重构与管理变革..." />
+
+<div class="min-h-screen flex flex-col bg-white">
+  <Header />
+
+  <main class="flex-grow container mx-auto px-4 py-16 max-w-7xl">
+    
+    <!-- 页面主标题 -->
+    <div class="text-center mb-12">
+      <h1 class="usearch-h1 !border-none !pl-0 !mt-0 text-center text-4xl md:text-5xl tracking-tight">
+        洞察中心
+      </h1>
+      <p class="text-lg text-slate-500 font-light mt-4">
+        探索 AI 时代的商业重构与管理变革
+      </p>
+    </div>
+
+        <!-- ========================================== -->
+    <!-- 模块一：顶部精选 -->
+    <!-- ========================================== -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16">
+      {featuredPosts.map((post) => {
+        const link = `/blog/${post.id}/`;
+        const rawImage = post.data.image?.url || post.data.heroImage;
+        const coverImage = fixImagePath(rawImage);
+        const category = normalizeCategory(post.data.tags && post.data.tags.length > 0 ? post.data.tags[0] : '');
+
+        return (
+          <article class="group bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-slate-100 flex flex-col h-full">
+            <div class="aspect-video w-full overflow-hidden bg-slate-100 relative">
+              {coverImage ? (
+                <img src={coverImage} alt={post.data.title} class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+              ) : (
+                <div class="w-full h-full flex items-center justify-center text-slate-300 bg-slate-50">No Image</div>
+              )}
+            </div>
+            <div class="p-4 md:p-6 flex flex-col flex-grow">
+              <div class="flex items-center gap-3 text-xs mb-3">
+                <span class={`px-2.5 py-0.5 text-xs font-semibold rounded border ${category.class}`}>
+                  {category.name}
+                </span>
+                <time class="text-slate-400">{post.data.pubDate.toLocaleDateString('zh-CN')}</time>
+              </div>
+              <h2 class="text-lg font-bold text-slate-900 mb-2 leading-snug line-clamp-2 group-hover:text-blue-900 transition-colors">
+                <a href={link}>{post.data.title}</a>
+              </h2>
+              <p class="text-slate-600 text-sm leading-relaxed mb-4 line-clamp-3 flex-grow">
+                {post.data.description}
+              </p>
+              <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
+                <span class="text-xs text-slate-400 font-medium">永思咨询</span>
+                <a href={link} class="text-slate-800 text-sm font-bold hover:text-blue-900 transition-colors">阅读全文 &rarr;</a>
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 分割线：横线 + 三个圆圈 -->
+    <!-- ========================================== -->
+    <div class="relative flex items-center justify-center my-16">
+      <div class="absolute w-full border-t border-gray-200"></div>
+      <div class="relative flex space-x-3 bg-white px-4">
+        <div class="w-2.5 h-2.5 rounded-full bg-gray-300"></div>
+        <div class="w-2.5 h-2.5 rounded-full bg-gray-400"></div>
+        <div class="w-2.5 h-2.5 rounded-full bg-gray-300"></div>
+      </div>
+    </div>
+
+        <!-- ========================================== -->
+    <!-- 模块二：全部文章 -->
+    <!-- ========================================== -->
+    <div class="w-full">
+      
+      <!-- 筛选器按钮 -->
+      <div class="flex flex-wrap justify-center gap-4 mb-10" id="filter-container">
+        <button class="filter-btn active px-6 py-2 rounded-full text-sm font-semibold transition-all bg-slate-900 text-white shadow-md" data-filter="all">全部</button>
+        <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium transition-all bg-white text-slate-600 hover:bg-slate-50 border border-slate-200" data-filter="技术前沿">技术前沿</button>
+        <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium transition-all bg-white text-slate-600 hover:bg-slate-50 border border-slate-200" data-filter="商业管理">商业管理</button>
+        <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium transition-all bg-white text-slate-600 hover:bg-slate-50 border border-slate-200" data-filter="实战案例">实战案例</button>
+      </div>
+
+      <!-- 列表容器 -->
+      <div class="space-y-6 w-full" id="post-list">
+        {listPosts.map((post) => {
+          const link = `/blog/${post.id}/`;
+          const rawImage = post.data.image?.url || post.data.heroImage;
+          const coverImage = fixImagePath(rawImage);
+          const category = normalizeCategory(post.data.tags && post.data.tags.length > 0 ? post.data.tags[0] : '');
+
+          return (
+            <article class="post-card group flex flex-col md:flex-row bg-white rounded-xl p-4 md:p-6 border border-slate-100 hover:shadow-lg transition-all duration-300 gap-4 md:gap-6 w-full" data-category={category.name}>              
+              {/* 左侧：文字区域 */}
+              <div class="flex-1 flex flex-col justify-center order-2 md:order-1">
+                <div class="flex items-center gap-3 text-xs mb-3">
+                  <span class={`px-2.5 py-0.5 text-xs font-semibold rounded border ${category.class}`}>
+                    {category.name}
+                  </span>
+                  <span class="text-slate-400 font-medium">·</span>
+                  <time class="text-slate-500">{post.data.pubDate.toLocaleDateString('zh-CN')}</time>
+                </div>
+
+                <h2 class="text-xl font-bold text-slate-900 mb-3 leading-tight group-hover:text-blue-900 transition-colors">
+                  <a href={link}>{post.data.title}</a>
+                </h2>
+
+                <p class="text-slate-600 text-sm leading-relaxed mb-4 line-clamp-2">
+                  {post.data.description}
+                </p>
+
+                <div class="text-sm text-slate-400 font-medium">
+                  永思咨询
+                </div>
+              </div>
+
+              {/* 右侧：图片区域 */}
+              <div class="w-full md:w-48 lg:w-64 h-40 md:h-auto flex-shrink-0 rounded-lg overflow-hidden bg-slate-100 order-1 md:order-2">
+                {coverImage ? (
+                  <img src={coverImage} alt={post.data.title} class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                ) : (
+                  <div class="w-full h-full flex items-center justify-center text-slate-300">No Image</div>
+                )}
+              </div>
+            </article>
+          );
+        })}
+      </div>
+      
+      <!-- 如果列表为空时的提示 -->
+      {listPosts.length === 0 && (
+        <div class="text-center py-10 text-slate-400">暂无更多文章</div>
+      )}
+
+    </div>
+  </main>
+
+  <Footer />
+  <BackToTop />
+</div>
+
+<!-- 筛选器交互脚本 -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.post-card');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // 样式切换
+        buttons.forEach(b => {
+          b.className = 'filter-btn px-6 py-2 rounded-full text-sm font-medium transition-all bg-white text-gray-600 hover:bg-gray-50 border border-gray-200';
+        });
+        btn.className = 'filter-btn active px-6 py-2 rounded-full text-sm font-semibold transition-all bg-gray-900 text-white shadow-md';
+
+        // 筛选逻辑
+        const filterValue = btn.getAttribute('data-filter');
+        cards.forEach(card => {
+          const category = card.getAttribute('data-category');
+          if (filterValue === 'all' || category === filterValue) {
+            card.style.display = 'flex'; 
+            setTimeout(() => card.style.opacity = '1', 10);
+          } else {
+            card.style.opacity = '0';
+            setTimeout(() => card.style.display = 'none', 300);
+          }
+        });
+      });
+    });
+  });
+</script>

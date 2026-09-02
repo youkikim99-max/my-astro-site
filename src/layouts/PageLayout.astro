@@ -1,0 +1,39 @@
+---
+// src/layouts/PageLayout.astro
+
+// 引入必要的组件
+import BaseHead from '../components/BaseHead.astro';
+import '../styles/global.css'; // 👈 必须确保这一行存在！
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BackToTop from '../components/BackToTop.astro';
+
+// 定义这个布局接收的属性
+interface Props {
+  title: string;
+  description?: string; // 描述是可选的
+}
+
+const { title, description } = Astro.props;
+---
+
+<html lang="zh-CN">
+  <head>
+    <!-- 只修改了这一行：把 description || '' 改成了 description -->
+    <BaseHead title={title} description={description} />
+  </head>
+  <body class="bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100 flex flex-col min-h-screen">
+    <!-- 调用统一的头部组件 -->
+    <Header />
+
+    <!-- 页面主要内容区域 -->
+    <main class="flex-grow w-full max-w-3xl mx-auto px-6 py-12 md:py-20">
+      <!-- 这里会渲染每个页面的具体内容 -->
+      <slot />
+    </main>
+
+    <!-- 页脚和返回顶部按钮 -->
+    <Footer />
+    <BackToTop />
+  </body>
+</html>

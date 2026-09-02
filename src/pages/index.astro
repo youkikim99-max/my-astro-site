@@ -1,63 +1,495 @@
 ---
-// 1. 引入 Astro 的内容读取功能
+// 1. 引入组件与工具
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BackToTop from '../components/BackToTop.astro';
 import { getCollection } from 'astro:content';
 
-// 2. 获取 'blog' 集合下的所有文章，并按日期倒序排列
-const posts = await getCollection('blog');
-posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+// 2. 获取并处理数据
+const allPosts = await getCollection('blog');
+// 按日期倒序排列
+allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// --- 数据切片 ---
+// A. 前沿视点 (最新 3 篇)
+const latestPosts = allPosts.slice(0, 3);
+// B. 永思·观察 (第 4-11 篇，共 8 篇做瀑布流)
+const insightPosts = allPosts.slice(3, 11);
+
+// 【新增】统一分类名称与样式配置（与洞察中心保持一致，仅三类：技术前沿/商业管理/实战案例）
+const normalizeCategory = (tag) => {
+  const t = (tag || '').toLowerCase();
+  
+  // 1. 技术前沿 (蓝色系)
+  if (t.includes('ai') || t.includes('技术') || t.includes('前沿') || t.includes('半导体') || t.includes('科技') || t.includes('数字')) {
+    return { name: '技术前沿', class: 'bg-blue-50 text-blue-700 border border-blue-100' };
+  }
+  
+  // 2. 商业管理 (黑金系)
+  if (t.includes('商业') || t.includes('管理') || t.includes('出海') || t.includes('新能源') || t.includes('组织') || t.includes('人才') || t.includes('战略') || t.includes('品牌')) {
+    return { name: '商业管理', class: 'bg-gray-900 text-yellow-400 border border-gray-800' };
+  }
+  
+  // 3. 实战案例 (橙色系)
+  if (t.includes('案例') || t.includes('实战') || t.includes('方法论')) {
+    return { name: '实战案例', class: 'bg-orange-50 text-orange-700 border border-orange-100' };
+  }
+
+  // 无法识别的 tag 默认归入商业管理，避免出现其他类别
+  return { name: '商业管理', class: 'bg-gray-900 text-yellow-400 border border-gray-800' };
+};
+
+// 定义4U模型数据
+const fourUData = [
+  {
+    title: 'Unique',
+    desc: '独特的研究视角与方法论',
+    icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>`
+  },
+  {
+    title: 'Unbiased',
+    desc: '客观中立的数据分析立场',
+    icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 21h18M5 21V7l8-4 8 4v14M8 21v-9a2 2 0 012-2h4a2 2 0 012 2v9"></path></svg>`
+  },
+  {
+    title: 'Unblemished',
+    desc: '纯净高质量的数据源头',
+    icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"></path></svg>`
+  },
+  {
+    title: 'Universal',
+    desc: '全域覆盖的消费者洞察',
+    icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>`
+  }
+];
+
+// 定义核心优势数据
+const advantageData = [
+  {
+    title: '真懂业务 · 驻场式服务',
+    desc: '拒绝"黑盒"作业。我们深入客户业务一线，通过 Workshop 共创模式，确保每一个研究假设都紧贴业务痛点，让洞察真正懂生意。'
+  },
+  {
+    title: '三剑齐发 · 全链路能力',
+    desc: '集"数据监测 + 定性研究 + 战略咨询"于一体。从发现机会点到验证可行性，再到制定落地策略，提供一站式闭环解决方案。'
+  },
+  {
+    title: '实战验证 · 头部客户信赖',
+    desc: '累计服务超过 300+ 行业头部客户，涵盖快消、互联网、金融等领域。我们的方法论经过无数次实战打磨，靠谱且有效。'
+  },
+  {
+    title: '结果导向 · 高续约率承诺',
+    desc: '我们不仅对报告负责，更对结果负责。凭借卓越的交付质量，我们保持了极高的客户续约率，是您长期信赖的战略合作伙伴。'
+  }
+];
+
 ---
 
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>我的移动端优先网站</title>
+    <BaseHead title="永思咨询 | USEARCH" description="洞见复杂商业，重塑决策未来。" />
+    <style>
+      /* 强制导航栏加粗，解决字体不一致问题 */
+      header nav a { font-weight: 700 !important; }
+      /* 瀑布流布局核心 CSS */
+      .masonry-grid { column-count: 1; column-gap: 1.5rem; }
+      @media (min-width: 768px) { .masonry-grid { column-count: 2; } }
+      @media (min-width: 1024px) { .masonry-grid { column-count: 3; } }
+      .break-inside-avoid { break-inside: avoid; }
+    </style>
   </head>
-  <body class="bg-gray-50 text-gray-900">
+  <body class="bg-white text-slate-900 antialiased flex flex-col min-h-screen">
     
-    <main class="px-4 py-8 max-w-2xl mx-auto">
-      
-      <!-- 标题部分 -->
-      <h1 class="text-2xl font-bold mb-4 md:text-4xl md:mb-6">
-        你好，移动端优先！
-      </h1>
-      
-      <p class="text-base leading-relaxed mb-8 text-gray-600">
-        这是我的个人博客，基于 Astro 和 Tailwind CSS 构建。
-        以下是我发布的最新文章：
-      </p>
+    <!-- 导航栏 -->
+    <Header />
 
-      <!-- 3. 这里是新增的：文章列表循环 -->
-      <div class="space-y-8">
-        {posts.map((post) => (
-          <article class="border-b border-gray-200 pb-6 last:border-0">
-            <!-- 文章标题链接 -->
-            <h2 class="text-xl font-bold mb-2">
-              <a href={`/blog/${post.id}/`} class="hover:text-blue-600 transition-colors">
-                {post.data.title}
-              </a>
-            </h2>
-            
-            <!-- 文章日期 -->
-            <time class="text-sm text-gray-500 mb-3 block">
-              {post.data.pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
-            </time>
-            
-            <!-- 文章描述 -->
-            <p class="text-gray-700 leading-relaxed">
-              {post.data.description}
-            </p>
-            
-            <!-- 阅读更多按钮 -->
-            <div class="mt-4">
-              <a href={`/blog/${post.id}/`} class="text-blue-600 font-medium hover:underline">
-                阅读全文 →
+    <main class="flex-grow w-full">
+      
+      <!-- 1. Hero Section: 高端专业感设计 -->
+      <section class="relative pt-32 pb-20 md:pt-48 md:pb-32 px-6 overflow-hidden">
+        <!-- 背景装饰线条 -->
+        <div class="absolute inset-0 z-0 opacity-[0.03]" 
+             style="background-image: radial-gradient(#0f172a 1px, transparent 1px); background-size: 32px 32px;">
+        </div>
+        
+        <div class="relative z-10 max-w-5xl mx-auto text-center">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold tracking-widest uppercase mb-8">
+            <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+            Data Driven · Strategy Led
+          </div>
+          
+          <h1 class="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 mb-8 leading-[1.1]">
+            洞见复杂商业<br class="hidden md:block" />
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-slate-700">重塑决策未来</span>
+          </h1>
+          
+          <p class="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed mb-10">
+            永思咨询致力于通过严谨的数据调研与前瞻性的行业分析，<br class="hidden md:block" />
+            为企业在不确定性中寻找确定性，提供可落地的战略增长路径。
+          </p>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="/solutions" class="px-8 py-4 bg-slate-900 text-white rounded-lg font-bold hover:bg-blue-900 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+              探索解决方案
+            </a>
+            <a href="/blog/" class="px-8 py-4 bg-white text-slate-700 border border-slate-200 rounded-lg font-bold hover:border-blue-300 hover:text-blue-700 transition-all">
+              阅读最新洞察
+            </a>
+          </div>
+        </div>
+      </section>
+
+                <!-- 2. 前沿视点 (左一右二布局) -->
+      <section class="py-20 bg-slate-50 px-6">
+        <div class="max-w-7xl mx-auto">
+          <!-- 标题栏 -->
+          <div class="flex justify-between items-end mb-10 border-l-4 border-blue-900 pl-4">
+             <div>
+                <h2 class="text-3xl font-bold text-slate-900">前沿视点</h2>
+                <p class="text-slate-500 mt-1 text-sm">Latest Insights & Trends</p>
+             </div>
+             <a href="/blog/" class="text-blue-700 font-medium hover:text-blue-900 transition-colors flex items-center gap-1">
+               查看全部 <span class="text-lg">&rarr;</span>
+             </a>
+          </div>
+
+          <!-- 核心 Grid 布局：左侧 1 列，右侧 2 列 -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 h-auto lg:h-[420px]">
+
+            {/* 左侧：第 1 篇 (最新) 大图卡片 */}
+            {latestPosts[0] && (() => {
+               const post = latestPosts[0];
+               const fixImagePath = (path) => {
+                 if (!path) return '';
+                 if (path.includes('../assets/') || path.includes('..\\assets\\')) return path.replace(/^(\.\.\/)+/, '/src/');
+                 return path;
+               };
+               // 兼容 { url, alt } 对象或字符串路径
+               const rawImage = post.data.image?.url || post.data.image?.src || post.data.heroImage;
+               const coverImage = fixImagePath(rawImage);
+               const tagInfo = normalizeCategory(post.data.tags && post.data.tags.length > 0 ? post.data.tags[0] : '');
+
+               return (
+                 <a href={`/blog/${post.id}/`} class="lg:col-span-7 relative group rounded-2xl overflow-hidden shadow-md block h-[400px] lg:h-full">
+                    {coverImage && (
+                      <img src={coverImage} alt={post.data.title} class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    )}
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full z-10">
+                      <span class={`px-2.5 py-0.5 text-xs font-semibold rounded border mb-3 inline-block ${tagInfo.class}`}>{tagInfo.name}</span>
+                      <h3 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-2 line-clamp-2 group-hover:text-blue-200 transition-colors">{post.data.title}</h3>
+                      <p class="text-slate-300 text-sm line-clamp-2 hidden md:block">{post.data.description}</p>
+                      <span class="text-xs text-white/70 font-medium mt-2 inline-block">永思咨询</span>
+                    </div>
+                 </a>
+               );
+            })()}
+
+            {/* 右侧：第 2、3 篇 (垂直排列) */}
+            <div class="lg:col-span-5 flex flex-col gap-6 h-full">
+              {latestPosts.slice(1).map((post) => {
+                 const fixImagePath = (path) => {
+                   if (!path) return '';
+                   if (path.includes('../assets/') || path.includes('..\\assets\\')) return path.replace(/^(\.\.\/)+/, '/src/');
+                   return path;
+                 };
+                 // 兼容 { url, alt } 对象或字符串路径
+                 const rawImage = post.data.image?.url || post.data.image?.src || post.data.heroImage;
+                 const coverImage = fixImagePath(rawImage);
+                 const tagInfo = normalizeCategory(post.data.tags && post.data.tags.length > 0 ? post.data.tags[0] : '');
+
+                 return (
+                   <article class="bg-white p-5 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-all flex-1 flex flex-col">
+                      <div class="flex items-center gap-2 mb-3">
+                         <span class={`px-2.5 py-0.5 text-xs font-semibold rounded border ${tagInfo.class}`}>{tagInfo.name}</span>
+                         <time class="text-xs text-slate-400">{post.data.pubDate.toLocaleDateString('zh-CN')}</time>
+                      </div>
+                      <h3 class="text-base font-bold text-slate-900 mb-2 leading-snug line-clamp-2 hover:text-blue-700">
+                        <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+                      </h3>
+                      <p class="text-slate-500 text-sm line-clamp-2 leading-relaxed">{post.data.description}</p>
+                      <span class="text-xs text-slate-400 font-medium mt-auto pt-3">永思咨询</span>
+                   </article>
+                 );
+              })}
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+           <!-- 3. 永思·观察 (左文右图布局) -->
+      <section class="py-24 px-6 bg-white">
+        <div class="max-w-7xl mx-auto">
+          <!-- 标题部分 -->
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-slate-900 mb-4">永思·观察</h2>
+            <div class="w-12 h-1 bg-blue-900 mx-auto mb-4"></div>
+            <p class="text-slate-500">深度解析行业趋势，沉淀商业智慧</p>
+          </div>
+
+          <!-- 列表容器 -->
+          <div class="space-y-6 w-full">
+            {insightPosts.map((post) => {
+              // --- 关键修复逻辑：确保图片路径正确 ---
+              const fixImagePath = (path) => {
+                if (!path) return '';
+                // 处理相对路径，将其转换为 Astro 可识别的绝对路径
+                if (path.includes('../assets/') || path.includes('..\\assets\\')) {
+                  return path.replace(/^(\.\.\/)+/, '/src/');
+                }
+                return path;
+              };
+
+              // --- 获取并处理图片 ---
+              const rawImage = post.data.image?.url || post.data.image?.src || post.data.heroImage;
+              const coverImage = fixImagePath(rawImage);
+              
+              // --- 获取分类信息（与洞察中心保持一致：技术前沿/商业管理/实战案例）---
+              const category = normalizeCategory(post.data.tags && post.data.tags.length > 0 ? post.data.tags[0] : '');
+
+              return (
+                <article class="post-card group flex flex-col md:flex-row bg-white rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-all duration-300 gap-6 w-full">
+                  {/* 左侧：文字区域 */}
+                  <div class="flex-1 flex flex-col justify-center order-2 md:order-1">
+                    <div class="flex items-center gap-3 text-xs mb-3">
+                      <span class={`px-2.5 py-0.5 text-xs font-semibold rounded border ${category.class}`}>{category.name}</span>
+                      <time class="text-gray-500">{post.data.pubDate.toLocaleDateString('zh-CN')}</time>
+                    </div>
+
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-3 leading-tight group-hover:text-blue-700 transition-colors">
+                      <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+                    </h3>
+
+                    <p class="text-gray-600 text-[15px] leading-relaxed mb-4 line-clamp-2">
+                      {post.data.description}
+                    </p>
+
+                    <div class="text-sm text-gray-400 font-medium">
+                      永思咨询
+                    </div>
+                  </div>
+
+                  {/* 右侧：图片区域 */}
+                  <div class="w-full md:w-64 h-40 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100 order-1 md:order-2 relative">
+                    {coverImage ? (
+                      <img 
+                        src={coverImage} 
+                        alt={post.data.title} 
+                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" 
+                        loading="lazy" 
+                      />
+                    ) : (
+                      <div class="w-full h-full flex items-center justify-center text-gray-300 text-sm">No Image</div>
+                    )}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+
+          <!-- 查看更多按钮 -->
+          <div class="text-center mt-12">
+            <a href="/blog/" class="inline-block px-8 py-3 bg-gray-900 text-white rounded-full font-medium hover:bg-gray-800 transition-colors shadow-md hover:shadow-xl">
+              查看全部文章 &rarr;
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. 核心业务体系 (使用答案引擎风格图标) -->
+      <section class="py-24 bg-slate-50 px-6 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-slate-900 mb-4">核心业务体系</h2>
+            <div class="w-12 h-1 bg-blue-900 mx-auto"></div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- 业务 1 -->
+            <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 group">
+              <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition-colors duration-300">
+                <!-- Unique Icon -->
+                <svg class="w-8 h-8 text-blue-600 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 mb-2">挖掘 · 诊断</h3>
+              <p class="text-xs font-bold text-blue-600 uppercase tracking-wider mb-4">Data Mining</p>
+              <p class="text-slate-500 text-sm leading-relaxed mb-6">
+                当企业内部数据孤岛林立、报表繁杂却难以提炼有效信息时，我们通过专业的数据挖掘技术，整合多渠道数据源，构建清晰的指标体系。
+              </p>
+              <a href="/solutions#mining" class="text-sm font-bold text-slate-900 hover:text-blue-700 flex items-center gap-1">
+                了解数据诊断服务 <span class="text-lg">→</span>
               </a>
             </div>
-          </article>
-        ))}
-      </div>
 
-    </main>
+            <!-- 业务 2 -->
+            <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 group">
+              <div class="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-600 transition-colors duration-300">
+                <!-- Unbiased Icon -->
+                <svg class="w-8 h-8 text-indigo-600 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 mb-2">研究 · 洞察</h3>
+              <p class="text-xs font-bold text-indigo-600 uppercase tracking-wider mb-4">Market Research</p>
+              <p class="text-slate-500 text-sm leading-relaxed mb-6">
+                当企业面临用户流失、新品遇冷或竞争加剧却不知根本原因时，我们通过科学的市场调研设计，融合定量数据与定性访谈，深入解读消费者行为背后的真实动机。
+              </p>
+              <a href="/solutions#research" class="text-sm font-bold text-slate-900 hover:text-indigo-700 flex items-center gap-1">
+                探索市场研究方案 <span class="text-lg">→</span>
+              </a>
+            </div>
+
+            <!-- 业务 3 -->
+            <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 group">
+              <div class="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-emerald-600 transition-colors duration-300">
+                <!-- Strategy Icon -->
+                <svg class="w-8 h-8 text-emerald-600 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 mb-2">咨询 · 施策</h3>
+              <p class="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-4">Management Consulting</p>
+              <p class="text-slate-500 text-sm leading-relaxed mb-6">
+                当企业战略清晰却执行困难、部门协同低效或增长遭遇系统性瓶颈时，我们提供融合行业经验与落地工具的管理咨询服务，推动绩效提升。
+              </p>
+              <a href="/solutions#consulting" class="text-sm font-bold text-slate-900 hover:text-emerald-700 flex items-center gap-1">
+                查看管理咨询案例 <span class="text-lg">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- 模块一：4U 模型 (白色背景，卡片悬浮) -->
+      <section class="py-20 bg-white dark:bg-gray-950 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-slate-900 dark:text-white">USEARCH · 你的答案引擎</h2>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {fourUData.map((item) => (
+              <div class="group bg-white dark:bg-gray-900 p-8 rounded-2xl border border-slate-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center">
+                {/* 图标容器 */}
+                <div class="w-16 h-16 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span set:html={item.icon}></span>
+                </div>
+                
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">{item.title}</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
+      <!-- 5. 关于永思咨询 (浅色背景，数据可视化) -->
+      <section class="py-24 bg-white px-6 border-t border-slate-100">
+        <div class="max-w-6xl mx-auto">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            <!-- 左侧：文字介绍 -->
+            <div>
+              <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6 leading-tight">
+                关于永思咨询
+              </h2>
+              <div class="w-16 h-1 bg-blue-900 mb-8"></div>
+              <p class="text-lg text-slate-600 leading-relaxed mb-6">
+                永思咨询是一家专注于数据驱动与战略落地的专业咨询机构。
+              </p>
+              <p class="text-slate-500 leading-relaxed mb-8">
+                我们深信，在充满不确定性的商业环境中，唯有严谨的调研与深度的思考，才能为企业找到确定的增长路径。从数据挖掘到管理施策，我们不仅是您的外部智囊，更是您长期发展的战略伙伴。
+              </p>
+              <a href="/about" class="inline-flex items-center text-sm font-bold text-blue-900 hover:text-blue-700 border-b-2 border-blue-100 hover:border-blue-700 pb-1 transition-all">
+                了解更多关于我们 <span class="ml-2">→</span>
+              </a>
+            </div>
+
+            <!-- 右侧：数据卡片网格 (已更新文案) -->
+            <div class="grid grid-cols-2 gap-4 md:gap-6">
+              
+              <!-- 卡片 1 -->
+              <div class="bg-slate-50 p-6 md:p-8 rounded-2xl border border-slate-100 text-center hover:border-blue-200 hover:shadow-md transition-all duration-300 flex flex-col justify-center items-center h-full">
+                <div class="text-3xl lg:text-4xl font-black text-blue-900 mb-2 tracking-tight">
+                  25+<span class="text-lg text-blue-700 font-bold ml-1"></span>
+                </div>
+                <div class="text-sm md:text-base font-medium text-slate-600">年行业深耕</div>
+              </div>
+
+              <!-- 卡片 2 -->
+              <div class="bg-slate-50 p-6 md:p-8 rounded-2xl border border-slate-100 text-center hover:border-blue-200 hover:shadow-md transition-all duration-300 flex flex-col justify-center items-center h-full">
+                <div class="text-3xl lg:text-4xl font-black text-blue-900 mb-2 tracking-tight">
+                  200<span class="text-lg text-blue-700 font-bold ml-1">+</span>
+                </div>
+                <div class="text-sm md:text-base font-medium text-slate-600">万用户/专家数据库</div>
+              </div>
+
+              <!-- 卡片 3 -->
+              <div class="bg-slate-50 p-6 md:p-8 rounded-2xl border border-slate-100 text-center hover:border-blue-200 hover:shadow-md transition-all duration-300 flex flex-col justify-center items-center h-full">
+                <div class="text-3xl lg:text-4xl font-black text-blue-900 mb-2 tracking-tight">
+                  100<span class="text-lg text-blue-700 font-bold ml-1">+</span>
+                </div>
+                <div class="text-sm md:text-base font-medium text-slate-600">亿每年数据追踪点</div>
+              </div>
+
+              <!-- 卡片 4 -->
+              <div class="bg-slate-50 p-6 md:p-8 rounded-2xl border border-slate-100 text-center hover:border-blue-200 hover:shadow-md transition-all duration-300 flex flex-col justify-center items-center h-full">
+                <div class="text-3xl lg:text-4xl font-black text-blue-900 mb-2 tracking-tight">
+                  100<span class="text-lg text-blue-700 font-bold ml-1">+</span>
+                </div>
+                <div class="text-sm md:text-base font-medium text-slate-600">个执行覆盖国家</div>
+              </div>
+
+            </div>
+          </div> <!-- 闭合 About 区域的 Grid -->
+        </div> <!-- 闭合 About 区域的 max-w-6xl -->
+      </section> <!-- 闭合 About 区域 Section -->
+
+      <!-- 模块二：核心优势 (淡灰背景，2x2网格) -->
+      <section class="py-20 bg-slate-50 dark:bg-gray-900 relative">
+        <div class="max-w-7xl mx-auto px-6">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-slate-900 dark:text-white">我们的核心优势</h2>
+            <p class="mt-4 text-slate-600 dark:text-slate-400">深耕行业多年，以实战验证实力</p>
+          </div>
+          
+          <!-- 2x2 网格布局 -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+            {advantageData.map((item, index) => (
+              <div class="relative group p-8 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4 border-blue-600">
+                
+                <!-- 背景大数字装饰 (01, 02...) -->
+                <span class="absolute top-4 right-6 text-6xl font-black text-slate-100 dark:text-gray-700 select-none pointer-events-none z-0 group-hover:text-blue-50 transition-colors duration-300">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+
+                <!-- 内容区域 -->
+                <div class="relative z-10">
+                  <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                    {item.title}
+                  </h3>
+                  <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-sm md:text-base">
+                    {item.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+       </main> 
+
+    <!-- 底部组件 -->
+    <Footer />
+    <BackToTop />
   </body>
 </html>

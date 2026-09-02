@@ -1,0 +1,43 @@
+---
+// src/components/JsonLdArticle.astro
+interface Props {
+  title: string;
+  description: string;
+  datePublished: string; // 格式: YYYY-MM-DD
+  authorName: string;
+  imageUrl?: string; // 可选：封面图绝对路径
+}
+
+const { 
+  title, 
+  description, 
+  datePublished, 
+  authorName, 
+  imageUrl = 'https://www.usearch.com.cn/default-cover.jpg' // 默认图片
+} = Astro.props;
+
+// 构造结构化数据对象
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": title,
+  "description": description,
+  "datePublished": datePublished,
+  "author": {
+    "@type": "Person",
+    "name": authorName
+  },
+  "image": imageUrl,
+  "publisher": {
+    "@type": "Organization",
+    "name": "Usearch",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.usearch.com.cn/logo.png" // 记得换成你真实的 Logo 地址
+    }
+  }
+};
+---
+
+<!-- 输出 script 标签，注意 type 必须是 application/ld+json -->
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

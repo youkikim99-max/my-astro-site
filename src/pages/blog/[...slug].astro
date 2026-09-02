@@ -1,37 +1,160 @@
 ---
-import { getCollection, render } from 'astro:content';
+// src/pages/blog/[...slug].astro
+import { getCollection } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
+import RelatedPosts from '../../components/RelatedPosts.astro';
 
-// 1. 获取所有文章数据
+// 【路由生成逻辑 - 保持不变】
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
-  
-  return posts.map((post) => ({
-    // 2. 关键点：这里必须使用 post.data.slug，与你 Markdown 文件里的 slug 字段对应
-    params: { slug: post.id }, 
-    props: post,
+  const validPosts = posts.filter(post => post && post.id);
+
+  return validPosts.map((post) => ({
+    params: { slug: String(post.id).replace(/^\//, '') },
+    props: { post },
   }));
 }
 
-type Props = {
-  data: {
-    title: string;
-    pubDate: Date;
-    description?: string;
-    author?: string;
-    image?: { url: string; alt: string };
-    tags?: string[];
-  };
-  body: string;
-  id: string;
-  collection: string;
-  data: any; // 包含 slug 等自定义字段
-};
+const { post } = Astro.props;
 
-const post = Astro.props;
-const { Content } = await render(post);
+if (!post) {
+  Astro.response.status = 404;
+  return;
+}
+
+// 【图片处理 - 保持不变】
+const rawImage = post.data.image?.url || post.data.heroImage;
+const heroImage = rawImage
+  ? rawImage.replace(/^(\.\.\/)+/, '/src/')
+  : undefined;
+
+// --- 👇 新增：智能推荐逻辑 ---
+const allPosts = await getCollection('blog');
+
+// 1. 获取当前文章的标签（假设你的 frontmatter 里有 tags 字段，如果没有，这里会安全地返回空数组）
+const currentTags = post.data.tags || [];
+
+// 2. 筛选逻辑：排除当前文章
+const otherPosts = allPosts.filter(p => p.id !== post.id);
+
+// 3. 混合排序算法
+let relatedPosts = [];
+
+if (currentTags.length > 0) {
+  // A. 优先找有相同标签的文章
+  const taggedMatches = otherPosts.filter(p => {
+    const postTags = p.data.tags || [];
+    // 检查是否有交集
+    return postTags.some(tag => currentTags.includes(tag));
+  });
+  
+  // B. 如果同标签的不够4篇，从剩下的文章里按时间倒序补齐
+  if (taggedMatches.length < 4) {
+    const neededCount = 4 - taggedMatches.length;
+    const alreadySelectedIds = new Set(taggedMatches.map(p => p.id));
+    
+    const othersSortedByDate = otherPosts
+      .filter(p => !alreadySelectedIds.has(p.id))
+      .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+      
+    relatedPosts = [...taggedMatches, ...othersSortedByDate.slice(0, neededCount)];
+  } else {
+    // 如果同标签的很多，只取前4个
+    relatedPosts = taggedMatches.slice(0, 4);
+  }
+} else {
+  // C. 如果当前文章没标签，直接取最新的4篇
+  relatedPosts = otherPosts
+    .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime())
+    .slice(0, 4);
+}
+// --- 👆 新增结束 ---
+
+// 生成当前页面的 URL (用于分享)
+const canonicalURL = Astro.url.origin + Astro.url.pathname;
 ---
 
-<BlogPost {...post.data}>
-  <Content />
+<BlogPost
+  title={post.data.title}
+  description={post.data.description}
+  pubDate={post.data.pubDate}
+  author={post.data.author}
+  heroImage={heroImage}
+  image={heroImage}
+>
+  <!-- 文章正文 -->
+  <Fragment set:html={post.rendered.html} />
+
+  <!-- 👇 新增：社交分享模块 -->
+  <div class="share-section">
+    <p class="share-label">觉得有用？分享给同事或朋友圈：</p>
+    <div class="share-buttons">
+      <!-- 微信分享 (通常企业站放个二维码提示或者复制链接) -->
+      <button class="share-btn wechat" onclick="navigator.clipboard.writeText(window.location.href); alert('链接已复制，快去微信分享给朋友吧！')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8.5 11a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm5 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm6.5 4.5c0-2.5-2.7-4.5-6-4.5s-6 2-6 4.5c0 .4.1.8.2 1.2L7 18l1.5-2.5c.5.1 1 .2 1.5.2 3.3 0 6-2 6-4.5zM12 2C6.5 2 2 5.8 2 10.5c0 2.6 1.4 5 3.7 6.6l-.9 2.7 3.2-1.6c1.2.3 2.6.5 4 .5 5.5 0 10-3.8 10-8.5S17.5 2 12 2zm-3 7a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm6 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>
+        <span>微信分享</span>
+      </button>
+      
+      <!-- LinkedIn 分享 -->
+      <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(canonicalURL)}`} target="_blank" rel="noopener noreferrer" class="share-btn linkedin">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+        <span>LinkedIn</span>
+      </a>
+    </div>
+  </div>
+  <!-- 👆 新增结束 -->
+
+  <!-- 相关推荐：传入计算好的 relatedPosts -->
+  <RelatedPosts slot="afterArticle" posts={relatedPosts} currentSlug={post.id} />
 </BlogPost>
+
+<style>
+  /* 分享模块样式 */
+  .share-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e5e7eb; /* 浅灰色分割线 */
+  }
+  .share-label {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+  .share-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+  .share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+  
+  /* 微信按钮风格 */
+  .wechat {
+    background-color: #f3f4f6;
+    color: #374151;
+    border-color: #e5e7eb;
+  }
+  .wechat:hover {
+    background-color: #e5e7eb;
+  }
+
+  /* LinkedIn 按钮风格 */
+  .linkedin {
+    background-color: #0077b5;
+    color: white;
+  }
+  .linkedin:hover {
+    background-color: #006396;
+  }
+</style>

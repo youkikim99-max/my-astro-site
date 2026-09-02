@@ -1,52 +1,86 @@
 ---
-// Import the global.css file here so that it is included on
-// all pages through the use of the <BaseHead /> component.
+// 0. 引入全局样式（确保博客文章等独立布局页面也能正确加载样式）
 import '../styles/global.css';
-import type { ImageMetadata } from 'astro';
-import FallbackImage from '../assets/blog-placeholder-1.jpg';
-import { SITE_TITLE } from '../consts';
-import { Font } from 'astro:assets';
 
+// 1. 导入网站默认标题
+import { SITE_TITLE as DEFAULT_SITE_TITLE } from '../consts';
+
+// 2. 接收外部传入的参数
+// 定义 Props 接口，image 可以是字符串，也可以是包含 url 的对象
 interface Props {
-	title: string;
-	description: string;
-	image?: ImageMetadata;
+  title?: string;
+  description?: string;
+  image?: string | { url: string };
 }
+const { title, description, image } = Astro.props;
 
+// 3. 拼接网页标题
+const pageTitle = title ? `${title} | ${DEFAULT_SITE_TITLE}` : DEFAULT_SITE_TITLE;
+
+// 4. 获取当前页面的规范链接 (Canonical URL)
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = FallbackImage } = Astro.props;
+// 5. 处理社交分享图片
+// 判断 image 类型，提取出正确的图片 URL 字符串
+let ogImageUrl = '/og-image.jpg'; // 默认图片路径
+if (image) {
+  if (typeof image === 'string') {
+    ogImageUrl = image;
+  } else if (typeof image === 'object' && image.url) {
+    ogImageUrl = image.url;
+  }
+}
+// 将相对路径转换为完整的绝对 URL
+const ogImage = new URL(ogImageUrl, Astro.site).href;
 ---
 
-<!-- Global Metadata -->
+<!-- 基础设置 -->
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="icon" href="/favicon.ico" />
-<link rel="sitemap" href="/sitemap-index.xml" />
-<link
-	rel="alternate"
-	type="application/rss+xml"
-	title={SITE_TITLE}
-	href={new URL('rss.xml', Astro.site)}
-/>
-<meta name="generator" content={Astro.generator} />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<Font cssVariable="--font-atkinson" preload />
+<!-- 网页标题 -->
+<title>{pageTitle}</title>
+
+<!-- 网页描述 -->
+{description && <meta name="description" content={description} />}
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
-<!-- Primary Meta Tags -->
-<title>{title}</title>
-<meta name="description" content={description} />
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" href="/favicon.ico" />
 
-<!-- Open Graph / Facebook -->
+<!-- SEO 相关 -->
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<!-- RSS 订阅 -->
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={DEFAULT_SITE_TITLE}
+  href={new URL('rss.xml', Astro.site).href}
+/>
+
+<!-- =========================================
+     Open Graph (微信、Facebook、LinkedIn 等社交分享)
+     ========================================= -->
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description || DEFAULT_SITE_TITLE} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:image" content={ogImage} />
 <meta property="og:type" content="website" />
-<meta property="og:url" content={Astro.url} />
-<meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image.src, Astro.url)} />
 
-<!-- Twitter -->
+<!-- =========================================
+     Twitter Card (Twitter/X 分享)
+     ========================================= -->
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description || DEFAULT_SITE_TITLE} />
+<meta name="twitter:image" content={ogImage} />
+
+<meta name="generator" content={Astro.generator} />
+
+<!-- 字体优化 -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="dns-prefetch" href="https://fonts.gstatic.com" />

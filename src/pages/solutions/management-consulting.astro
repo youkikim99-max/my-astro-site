@@ -1,0 +1,217 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import BackToTop from '../../components/BackToTop.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+
+// 定义页面专属的青蓝色主题色 (松石绿)
+const THEME_COLOR = '#0f766e'; 
+const THEME_BG_LIGHT = '#f0fdfa'; 
+const THEME_TEXT = '#0f766e'; 
+
+// 核心卖点数据 (3大落地保障)
+const features = [
+  {
+    title: '驻场陪跑',
+    desc: '方案交付后，顾问在客户会议室驻场23天，手把手教团队打仗，知识100%转移。',
+    highlight: '23天'
+  },
+  {
+    title: '结果对赌',
+    desc: '每一条策略配行动清单+责任人+时间节点，90天未达预期免费二次诊断。',
+    highlight: '90天'
+  },
+  {
+    title: '资源嫁接',
+    desc: '缺渠道？缺人才？缺数据？我们直接拉微信群对接，不做甩手掌柜。',
+    highlight: '直连'
+  }
+];
+
+// 具体服务清单
+const services = [
+  'AI战略规划', '出海全案咨询', '双碳转型路径', '数字化增长设计',
+  '品牌定位与溢价', '渠道变革', '组织绩效优化', '供应链再造', '变革管理陪跑'
+];
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <BaseHead title={`管理咨询 - ${SITE_TITLE}`} description="方案落地，才算胜仗。提供驻场陪跑、结果对赌与资源嫁接的管理咨询服务。" />
+    <style>
+      /* 简单的过渡动画 */
+      .fade-in-up { animation: fadeInUp 0.6s ease-out forwards; opacity: 0; transform: translateY(20px); }
+      @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+      .delay-100 { animation-delay: 0.1s; }
+      .delay-200 { animation-delay: 0.2s; }
+      .delay-300 { animation-delay: 0.3s; }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col bg-slate-50 text-slate-800 dark:bg-gray-950 dark:text-gray-100 font-sans">
+    
+    <!-- 顶部色条：身份标识 -->
+    <div class="w-full h-1.5" style={`background-color: ${THEME_COLOR}`}></div>
+
+    <Header />
+
+    <main class="flex-1 w-full">
+      
+      <!-- 1. Hero Section: 核心主张 -->
+      <section class="relative overflow-hidden bg-white dark:bg-gray-900 border-b border-slate-100 dark:border-gray-800">
+        <div class="max-w-7xl mx-auto px-6 py-16 md:py-24">
+          <div class="max-w-3xl fade-in-up">
+            <span class="inline-block py-1 px-3 rounded-full text-xs font-bold tracking-wider uppercase mb-4" 
+                  style={`background-color: ${THEME_BG_LIGHT}; color: ${THEME_TEXT}; border: 1px solid ${THEME_COLOR}20`}>
+              MANAGEMENT CONSULTING SOLUTION
+            </span>
+            <h1 class="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 leading-tight">
+              管理咨询：<br class="md:hidden">方案落地，才算胜仗
+            </h1>
+            <p class="text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
+              拒绝纸上谈兵。我们提供驻场陪跑与结果对赌机制，确保战略从会议室走向业务一线。
+            </p>
+          </div>
+        </div>
+        <!-- 背景装饰 -->
+        <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 rounded-full opacity-5 blur-3xl" style={`background-color: ${THEME_COLOR}`}></div>
+      </section>
+
+      <!-- 2. Core Features: 三大差异化优势 -->
+      <section class="py-16 md:py-24 bg-slate-50 dark:bg-gray-950">
+        <div class="max-w-7xl mx-auto px-6">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {features.map((feature, index) => (
+              <div class={`bg-white dark:bg-gray-900 p-8 rounded-xl shadow-sm border border-slate-100 dark:border-gray-800 hover:shadow-md transition-shadow fade-in-up delay-${(index + 1) * 100}`}>
+                <div class="flex items-baseline justify-between mb-4">
+                  <h3 class="text-xl font-bold text-slate-900 dark:text-white">{feature.title}</h3>
+                  <span class="text-3xl font-black opacity-10" style={`color: ${THEME_COLOR}`}>{feature.highlight}</span>
+                </div>
+                <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                  {feature.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Services List: 具体服务矩阵 (模块化卡片) -->
+      <section class="py-16 md:py-24 bg-white dark:bg-gray-900">
+        <div class="max-w-7xl mx-auto px-6">
+          <div class="text-center mb-12 md:mb-16 fade-in-up">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 tracking-tight">全链路管理赋能体系</h2>
+            <p class="text-lg text-slate-500 dark:text-slate-400 font-medium">从顶层战略规划，到一线组织变革</p>
+          </div>
+          
+          <!-- 服务网格 (移动端双列，桌面端四列) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 fade-in-up delay-200">
+            
+            <!-- 1. AI战略规划 -->
+            <div class="group bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-slate-100 dark:border-gray-800 flex flex-col h-full">
+              <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style={`background-color: ${THEME_BG_LIGHT}`}>
+                <svg class="w-6 h-6" style={`color: ${THEME_TEXT}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">AI战略规划</h3>
+              <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed flex-1">结合前沿技术重塑企业核心竞争力。</p>
+            </div>
+
+            <!-- 2. 出海全案咨询 -->
+            <div class="group bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-slate-100 dark:border-gray-800 flex flex-col h-full">
+              <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style={`background-color: ${THEME_BG_LIGHT}`}>
+                <svg class="w-6 h-6" style={`color: ${THEME_TEXT}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">出海全案咨询</h3>
+              <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed flex-1">从合规到本土化，护航全球化布局。</p>
+            </div>
+
+            <!-- 3. 双碳转型路径 -->
+            <div class="group bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-slate-100 dark:border-gray-800 flex flex-col h-full">
+              <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style={`background-color: ${THEME_BG_LIGHT}`}>
+                <svg class="w-6 h-6" style={`color: ${THEME_TEXT}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">双碳转型路径</h3>
+              <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed flex-1">构建ESG体系，实现绿色可持续发展。</p>
+            </div>
+
+            <!-- 4. 数字化增长设计 -->
+            <div class="group bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-slate-100 dark:border-gray-800 flex flex-col h-full">
+              <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style={`background-color: ${THEME_BG_LIGHT}`}>
+                <svg class="w-6 h-6" style={`color: ${THEME_TEXT}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">数字化增长设计</h3>
+              <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed flex-1">用数据驱动业务流程优化与营收增长。</p>
+            </div>
+
+            <!-- 5. 品牌定位与溢价 -->
+            <div class="group bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-slate-100 dark:border-gray-800 flex flex-col h-full">
+              <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style={`background-color: ${THEME_BG_LIGHT}`}>
+                <svg class="w-6 h-6" style={`color: ${THEME_TEXT}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">品牌定位与溢价</h3>
+              <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed flex-1">重塑品牌价值，打破价格战泥潭。</p>
+            </div>
+
+            <!-- 6. 渠道变革 -->
+            <div class="group bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-slate-100 dark:border-gray-800 flex flex-col h-full">
+              <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style={`background-color: ${THEME_BG_LIGHT}`}>
+                <svg class="w-6 h-6" style={`color: ${THEME_TEXT}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">渠道变革</h3>
+              <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed flex-1">打通线上线下，构建全域营销网络。</p>
+            </div>
+
+            <!-- 7. 组织绩效优化 -->
+            <div class="group bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-slate-100 dark:border-gray-800 flex flex-col h-full">
+              <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style={`background-color: ${THEME_BG_LIGHT}`}>
+                <svg class="w-6 h-6" style={`color: ${THEME_TEXT}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">组织绩效优化</h3>
+              <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed flex-1">激活人才效能，打造高绩效团队。</p>
+            </div>
+
+                        <!-- 8. 供应链再造 -->
+            <div class="group bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-slate-100 dark:border-gray-800 flex flex-col h-full">
+              <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style={`background-color: ${THEME_BG_LIGHT}`}>
+                <svg class="w-6 h-6" style={`color: ${THEME_TEXT}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">供应链再造</h3>
+              <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed flex-1">优化上下游协同，打造敏捷供应链体系。</p>
+            </div>
+
+            <!-- 9. 变革管理陪跑 (横跨两列) -->
+            <div class="group bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-slate-100 dark:border-gray-800 flex flex-col h-full md:col-span-2 lg:col-span-2">
+              <div class="flex items-start">
+                 <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-5 mr-6 group-hover:scale-110 transition-transform duration-300 flex-shrink-0" style={`background-color: ${THEME_BG_LIGHT}`}>
+                  <svg class="w-6 h-6" style={`color: ${THEME_TEXT}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">变革管理陪跑</h3>
+                  <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">驻场23天手把手教团队打仗，确保知识100%转移，方案真正落地生根。</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="py-16 bg-white dark:bg-gray-900 text-center">
+        <div class="max-w-3xl mx-auto px-6 fade-in-up delay-300">
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">准备好打赢这场胜仗了吗？</h2>
+          <p class="text-slate-600 dark:text-slate-400 mb-8">我们的管理咨询专家团队将在24小时内与您联系。</p>
+          <a href="/contact" class="inline-flex items-center justify-center px-8 py-3 text-base font-medium text-white rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5" style={`background-color: ${THEME_COLOR}`}>
+            预约专家诊断
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          </a>
+        </div>
+      </section>
+
+    </main>
+
+    <Footer />
+    <BackToTop />
+  </body>
+</html>

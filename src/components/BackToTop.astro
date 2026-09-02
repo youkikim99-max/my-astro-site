@@ -1,0 +1,32 @@
+---
+// 回到顶部按钮（全站组件）：滚动超过 400px 后淡入，点击平滑回顶
+---
+
+<button
+  id="back-to-top"
+  type="button"
+  aria-label="回到顶部"
+  class="fixed bottom-6 right-6 z-50 w-11 h-11 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 hover:shadow-xl flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300"
+>
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+  </svg>
+</button>
+
+<script>
+  const button = document.getElementById('back-to-top');
+  const threshold = 400;
+
+  function update() {
+    const visible = window.scrollY > threshold;
+    button.classList.toggle('opacity-0', !visible);
+    button.classList.toggle('pointer-events-none', !visible);
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('load', update, { passive: true });
+
+  button.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>

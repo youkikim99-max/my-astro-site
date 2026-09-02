@@ -1,86 +1,136 @@
 ---
-import { Image } from 'astro:assets';
-import type { CollectionEntry } from 'astro:content';
+// 1. 删除了 import { Image } from 'astro:assets';
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BackToTop from '../components/BackToTop.astro';
+import { SITE_TITLE } from '../consts';
 
-type Props = CollectionEntry<'blog'>['data'];
+interface Props {
+  title: string;
+  description: string;
+  pubDate?: Date;
+  author?: string;
+  heroImage?: string;
+  image?: string; 
+  tags?: string[]; 
+}
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+// 2. 直接使用 heroImage，不再进行任何转换
+const { title, description, pubDate, author = '匿名', heroImage, image, tags = [] } = Astro.props;
+
+// ✅ 新增：智能提取图片 URL，防止传入对象导致分享卡片失败
+const shareImage = typeof image === 'object' && image?.url ? image.url : image;
 ---
 
-<html lang="en">
-	<head>
-		<BaseHead title={title} description={description} />
-		<style>
-			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
-				margin: 0;
-			}
-			.hero-image {
-				width: 100%;
-			}
-			.hero-image img {
-				display: block;
-				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
-			}
-			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
-			}
-			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
-			}
-			.title h1 {
-				margin: 0 0 0.5em 0;
-			}
-			.date {
-				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
-			}
-			.last-updated-on {
-				font-style: italic;
-			}
-		</style>
-	</head>
+<html lang="zh-CN">
+  <head>
+  <BaseHead 
+  title={title} 
+  description={description} 
+  image={shareImage}  // 👈 只传入纯净的图片 URL
+  author={author} 
+  tags={tags} 
+/>
 
-	<body>
-		<Header />
-		<main>
-			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
-				</div>
-				<div class="prose">
-					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
-						</div>
-						<h1>{title}</h1>
-						<hr />
-					</div>
-					<slot />
-				</div>
-			</article>
-		</main>
-		<Footer />
-	</body>
+  <!-- ✅ 新增：JSON-LD 结构化数据 -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": title,
+    "description": description,
+    "image": image?.url || heroImage,
+    "author": {
+      "@type": "Organization",
+      "name": author
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "永思咨询",
+      "logo": {
+        "@type": "ImageObject",
+        "url": new URL("/logo.png", Astro.site).href
+      }
+    },
+    "datePublished": pubDate?.toISOString(),
+    "dateModified": pubDate?.toISOString()
+  })} />
+</head>
+  <body class="bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100 flex flex-col min-h-screen">
+    <Header />
+
+    <main class="flex-grow w-full max-w-3xl mx-auto px-6 py-12 md:py-20">
+      <a
+        href="/blog"
+        class="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 mb-8 transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        返回文章列表
+      </a>
+
+      <header class="mb-10">
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6 leading-snug">
+          {title}
+        </h1>
+
+        {description && (
+          <p class="text-base sm:text-lg text-slate-500 dark:text-slate-400 leading-relaxed">
+            {description}
+          </p>
+        )}
+
+        {/* 极细分隔线 + 元数据信息条（上下双线，形成完整头部信息区） */}
+        <div class="mt-8 pt-6 pb-4 mb-8 border-t border-b border-slate-200 dark:border-slate-800 flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+          <span class="inline-flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            {author}
+          </span>
+          <span class="w-1 h-1 rounded-full bg-slate-300" aria-hidden="true"></span>
+          {pubDate && (
+            <span class="inline-flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <time datetime={pubDate.toISOString()}>{pubDate.toLocaleDateString('zh-CN')}</time>
+            </span>
+          )}
+        </div>
+      </header>
+
+    {heroImage && (
+      <figure class="mb-10">
+      <img
+      src={heroImage}
+      alt={title}
+      class="w-full h-auto rounded-xl shadow-lg"
+      loading="lazy"
+      />
+    </figure>
+  )}
+
+      <article class="prose prose-slate max-w-none sm:prose-lg
+                      prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white
+                      prose-h2:text-2xl prose-h2:border-l-4 prose-h2:border-blue-600 prose-h2:pl-4 prose-h2:mt-12 prose-h2:mb-6
+                      prose-h3:text-lg prose-h3:font-semibold prose-h3:text-slate-700 dark:prose-h3:text-slate-300 prose-h3:mt-8 prose-h3:mb-3
+                      prose-h4:mt-8 prose-h4:mb-2
+                      prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-[1.9] prose-p:my-6 prose-p:text-justify
+                      prose-strong:text-gray-900 dark:prose-strong:text-white prose-strong:font-extrabold
+                      prose-a:text-blue-600 dark:prose-a:text-blue-400 hover:prose-a:underline
+                      prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 dark:prose-blockquote:bg-gray-800/50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:rounded-r-lg prose-blockquote:italic
+                      prose-hr:my-8 prose-hr:border-slate-200 dark:prose-hr:border-slate-800
+                      prose-figure:my-10 prose-img:rounded-xl prose-img:shadow-md prose-img:h-auto prose-pre:overflow-x-auto">
+        <slot />
+      </article>
+
+      <!-- 文章下方额外内容插槽（相关推荐等，在 prose 外部但在 main 内部） -->
+      <slot name="afterArticle" />
+    </main>
+
+    <Footer />
+    <BackToTop />
+  </body>
 </html>

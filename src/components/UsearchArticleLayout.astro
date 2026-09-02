@@ -1,0 +1,147 @@
+---
+// src/components/UsearchArticleLayout.astro
+interface Props {
+  title: string;
+  date?: string;
+  author?: string;
+  coverImage?: string; // 可选：封面图路径
+}
+
+const { title, date, author, coverImage } = Astro.props;
+---
+
+<!-- 
+  注意：这里我们将 CSS 直接写在组件内，利用 Astro 的 scoped 特性。
+  同时引入了 Tailwind v4 必须的 @theme 变量声明，确保组件独立可用。
+-->
+<style>
+  /* =========================================
+     0. 显式注册主题变量 (Tailwind v4 兼容层)
+     ========================================= */
+  @theme {
+    --color-blue-900: #1e3a8a;
+    --color-blue-700: #1d4ed8;
+    --color-slate-50: #f8fafc;
+    --color-slate-300: #cbd5e1;
+    --color-slate-600: #475569;
+    --color-slate-700: #334155;
+    --color-slate-800: #1e293b;
+    --color-slate-900: #0f172a;
+  }
+
+  /* =========================================
+     Usearch 专属文章排版规范 (移动端优先)
+     ========================================= */
+
+  /* 1. 文章正文基础排版 */
+  .usearch-article-body {
+    @apply text-slate-700 text-base leading-[1.8] space-y-6 antialiased;
+  }
+
+  /* 2. 标题体系 */
+  .usearch-h1 {
+    /* 移动端：竖线稍细，间距适中 */
+    @apply text-2xl font-bold text-slate-900 mt-8 mb-6 pl-4 border-l-[3px] border-blue-900;
+  }
+  
+  .usearch-h2 {
+    @apply text-xl font-bold text-slate-800 mt-8 mb-4;
+  }
+
+  /* 3. 强调与高亮 */
+  .usearch-highlight {
+    @apply font-bold text-blue-900;
+  }
+
+  /* 4. 特色模块：案例印证卡片 */
+  .usearch-card {
+    /* 移动端：p-4 (1rem)，桌面端：md:p-6 (1.5rem) */
+    @apply my-8 p-4 md:p-6 bg-slate-50 border-l-4 border-slate-300 rounded-r-md shadow-sm;
+  }
+
+  /* 【微调点1】卡片标题样式 */
+  .usearch-card-title,
+  .usearch-card > strong:first-child {
+    /* 增加底部间距 mb-3 */
+    @apply block font-bold text-slate-800 mb-3 text-sm uppercase tracking-wider;
+  }
+
+  /* 卡片内的正文内容 */
+  .usearch-card p {
+    @apply text-slate-600 italic text-sm md:text-base;
+  }
+
+  /* 卡片内的列表：去掉正文列表的圆点与缩进，保持卡片内部紧凑对齐 */
+  .usearch-card ul {
+    @apply list-none ml-0 space-y-2 mt-2;
+  }
+
+  .usearch-card ul li {
+    @apply text-slate-600 text-sm md:text-base leading-relaxed;
+  }
+
+  .usearch-card ul li strong {
+    @apply text-slate-800 font-bold;
+  }
+
+  /* 5. 特色模块：智库观点卡片 (黑金) */
+  .usearch-insight {
+    /* 移动端：p-4，桌面端：md:p-6 */
+    @apply my-8 p-4 md:p-6 bg-gray-900 text-yellow-400 rounded-lg border border-gray-800 font-medium text-sm md:text-base;
+  }
+
+  /* 6. 列表规范 (呼吸感) */
+  .usearch-article-body ul, 
+  .usearch-article-body ol {
+    /* 移动端：ml-2，桌面端：md:ml-4 */
+    @apply space-y-2 ml-2 md:ml-4 list-inside;
+  }
+  
+  .usearch-article-body ul { @apply list-disc; }
+  .usearch-article-body ol { @apply list-decimal; }
+
+  .usearch-article-body li strong {
+    @apply text-slate-900;
+  }
+
+  /* 响应式调整：大屏幕优化 */
+  @media (min-width: 768px) {
+    .usearch-h1 {
+      @apply text-3xl mt-12 mb-6 border-l-4; /* 桌面端恢复粗竖线 */
+    }
+  }
+</style>
+
+<div class="w-full max-w-3xl mx-auto px-4 md:px-0">
+  <!-- 顶部元数据区域 -->
+  <div class="mb-8 border-b border-slate-100 pb-6">
+    <h1 class="usearch-h1">{title}</h1>
+    
+    <div class="flex items-center text-xs text-slate-500 space-x-4">
+      {author && (
+        <span class="flex items-center">
+          <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+          {author}
+        </span>
+      )}
+      {date && (
+        <span class="flex items-center">
+          <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          {date}
+        </span>
+      )}
+    </div>
+  </div>
+
+  <!-- 封面图 (如果有) -->
+  {coverImage && (
+    <div class="mb-8 rounded-lg overflow-hidden shadow-md">
+      <img src={coverImage} alt={title} class="w-full h-auto object-cover" />
+    </div>
+  )}
+
+  <!-- 核心文章内容插槽 -->
+  <article class="usearch-article-body">
+    <slot />
+  </article>
+</div>

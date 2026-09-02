@@ -1,0 +1,289 @@
+---
+// Usearch (永思洞察) — About Us (English)
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BackToTop from '../components/BackToTop.astro';
+
+// Company contact (keep consistent with the site's brand)
+const contactEmail = 'shirley.jin@useearch.com.cn';
+const hqCity = 'Beijing, China';
+
+// Timeline data (mirrors the Chinese "发展历程" but in English, in the design doc's spirit)
+const milestones = [
+  {
+    year: '2026',
+    tag: 'Global Strategy',
+    title: 'Setting Sail Globally',
+    desc: 'A full global execution network is now active. Serving clients across North America, Europe, and Asia — wherever your research needs take us, we deliver precise, cross-cultural fieldwork and insight.',
+  },
+  {
+    year: '2024',
+    tag: 'Hong Kong Branch',
+    title: 'Crossing Mountains, Rooted in HK',
+    desc: 'Established our Hong Kong branch as a bridge to international capital and the Asia-Pacific market, radiating outward into Southeast Asia and global markets.',
+  },
+  {
+    year: '2020',
+    tag: 'AI & Data Lab',
+    title: 'Technology-Driven Insight',
+    desc: 'Pioneered AI forecasting models and automated data-mining to shift from a labor-intensive model to a technology-driven one — making insight faster and sharper.',
+  },
+  {
+    year: '2018',
+    tag: 'Digital Leadership',
+    title: 'Trusted by Industry Giants',
+    desc: 'Became the core research partner of leading internet companies and top-tier clients across mobile internet and consumer tech.',
+  },
+  {
+    year: '2016',
+    tag: 'Shanghai Office',
+    title: 'Expanding East',
+    desc: 'Entered China\u2019s economic heart, serving global Fortune 500 and unicorn companies while sharpening a battle-tested consulting methodology.',
+  },
+  {
+    year: '2014',
+    tag: 'Core Methodology',
+    title: 'Defining the Standard',
+    desc: 'Codified our proprietary research model — a promise of objectivity, purity, and unique insight to every client.',
+  },
+  {
+    year: '2012',
+    tag: 'Foundation',
+    title: 'The Journey Begins',
+    desc: 'Founded in Beijing with a vision to bring data-driven insights to Chinese enterprises. Our first professional research team set out to let data reveal the truth.',
+  },
+];
+
+// Core advantages (from the design doc, strong & professional)
+const advantages = [
+  {
+    num: '01',
+    title: 'Unmatched Nationwide Coverage',
+    desc: 'From Tier-1 metropolises to remote rural villages, our network covers all cities in China. With a vast force of experienced field interviewers and supervisors, we ensure data authenticity wherever your target audience resides.',
+  },
+  {
+    num: '02',
+    title: 'Global Standards & Compliance',
+    desc: 'Founded by alumni from top-tier firms like Nielsen, our leadership brings decades of expertise. We strictly adhere to ESOMAR international codes, ensuring every project meets global compliance and quality benchmarks.',
+  },
+  {
+    num: '03',
+    title: 'Seamless Cross-Cultural Communication',
+    desc: 'No language barriers. Our research team is fluent in English and other major languages, providing real-time updates and direct communication. We bridge Western strategic needs and Chinese market realities.',
+  },
+  {
+    num: '04',
+    title: 'Proprietary Data Assets & Speed',
+    desc: 'Leveraging a massive proprietary user database, we accelerate recruitment without compromising quality. Our agile workflow ensures rapid turnaround — insights you need, faster than the competition.',
+  },
+];
+
+// Core business services (English, adapted from design intent)
+const services = [
+  {
+    icon: 'analytics',
+    color: 'blue',
+    title: 'Data Mining & Analytics',
+    subtitle: 'Data · Insight',
+    desc: 'We transform raw data into strategic assets. From social listening to e-commerce analytics, we uncover hidden patterns and consumer trends to drive your business growth.',
+    link: '#',
+    linkText: 'Learn more',
+  },
+  {
+    icon: 'research',
+    color: 'indigo',
+    title: 'Market Research',
+    subtitle: 'Research · Insight',
+    desc: 'Combining quantitative data with qualitative interviews to decode consumer behavior and uncover the "why" behind the numbers — from the field to the final report.',
+    link: '#',
+    linkText: 'Explore solutions',
+  },
+  {
+    icon: 'consulting',
+    color: 'teal',
+    title: 'Consulting & Strategy',
+    subtitle: 'Strategy · Execution',
+    desc: 'When strategy meets execution hurdles, we provide management consulting that combines industry expertise with practical tools to drive performance and organizational efficiency.',
+    link: '#',
+    linkText: 'View Case Studies',
+  },
+];
+---
+
+<BaseHead title="About Us | Usearch - Global Insights, China Execution" description="Usearch is a market research and consulting firm bridging Western strategic needs and Chinese market realities. Global standards, local depth." />
+<Header />
+
+<main class="bg-gray-50 min-h-screen">
+
+  <!-- ========================================== -->
+  <!-- HERO : Global Insights, China Execution    -->
+  <!-- ========================================== -->
+  <section class="py-20 px-6 bg-white border-b border-gray-100">
+    <div class="max-w-7xl mx-auto text-center">
+      <p class="inline-block px-3 py-1 mb-5 text-xs font-bold tracking-widest uppercase text-blue-600 bg-blue-50 rounded-full">
+        Usearch · Since 2012
+      </p>
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 tracking-tight">
+        Global Insights, China Execution
+      </h1>
+      <p class="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
+        A market research and consulting firm headquartered in Beijing, dedicated to bridging
+        Western strategic needs and Chinese market realities — with global standards and local depth.
+      </p>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SECTION 1: CORE ADVANTAGES (Why Choose Us) -->
+  <!-- ========================================== -->
+  <section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <p class="text-blue-600 font-semibold tracking-wide uppercase text-sm mb-2">Our Edge</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Why Choose Us for China Execution?</h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+          Global Standards, Local Depth. Delivering precision across every tier of the Chinese market.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {advantages.map((a) => (
+          <div class="bg-white p-8 rounded-xl shadow-sm border-l-4 border-blue-600 hover:shadow-md transition-shadow">
+            <div class="flex items-start justify-between mb-4">
+              <h3 class="text-xl font-bold text-gray-900">{a.title}</h3>
+              <span class="text-4xl font-black text-gray-100 select-none">{a.num}</span>
+            </div>
+            <p class="text-gray-600 leading-relaxed">{a.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SECTION 2: OUR JOURNEY (Timeline)          -->
+  <!-- ========================================== -->
+  <section class="py-20 bg-white overflow-hidden">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <p class="text-blue-600 font-semibold tracking-wide uppercase text-sm mb-2">The Journey of Connection</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Our Journey</h2>
+        <p class="mt-4 text-gray-600">Growing alongside the evolving Chinese market.</p>
+      </div>
+
+      <!-- Timeline container -->
+      <div class="relative">
+        <!-- Center vertical line -->
+        <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-gray-200 -ml-px md:-translate-x-1/2"></div>
+
+        {milestones.map((m, index) => (
+          <div class={`relative mb-12 md:mb-20 flex flex-col md:flex-row ${index % 2 === 0 ? 'md:flex-row-reverse' : ''} items-start`}>
+            <!-- Dot -->
+            <div class="absolute left-4 md:left-1/2 w-4 h-4 bg-blue-600 rounded-full border-4 border-white shadow-md -ml-2 md:-translate-x-1/2 z-10 mt-1.5"></div>
+
+            <!-- Content card -->
+            <div class="w-full md:w-1/2 pl-12 md:pl-0 ${index % 2 === 0 ? 'md:pl-12' : 'md:pr-12'}">
+              <div class="relative bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-blue-200 transition-colors">
+                <span class="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-wider text-blue-600 uppercase bg-blue-50 rounded-full">
+                  {m.tag}
+                </span>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">{m.title}</h3>
+                <p class="text-gray-600 text-sm leading-relaxed">{m.desc}</p>
+                <span class="absolute bottom-4 right-4 text-4xl leading-none font-black text-gray-100 select-none pointer-events-none">
+                  {m.year}
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SECTION 3: CORE BUSINESS (Services)        -->
+  <!-- ========================================== -->
+  <section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <p class="text-blue-600 font-semibold tracking-wide uppercase text-sm mb-2">Our Expertise</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Core Business System</h2>
+        <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+          We provide a full spectrum of market research and consulting services, designed to navigate the complexities of the Chinese market.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {services.map((s) => (
+          <div class={`bg-white p-8 rounded-xl shadow-sm border-t-4 hover:-translate-y-1 transition-transform duration-300 ${s.color === 'blue' ? 'border-blue-500' : s.color === 'indigo' ? 'border-indigo-500' : 'border-teal-500'}`}>
+            <div class={`w-14 h-14 ${s.color === 'blue' ? 'bg-blue-100' : s.color === 'indigo' ? 'bg-indigo-100' : 'bg-teal-100'} rounded-xl flex items-center justify-center mb-6`}>
+              {s.icon === 'analytics' && (
+                <svg width="32" height="32" class="w-8 h-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+              )}
+              {s.icon === 'research' && (
+                <svg width="32" height="32" class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+              )}
+              {s.icon === 'consulting' && (
+                <svg width="32" height="32" class="w-8 h-8 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+              )}
+            </div>
+            <h3 class="text-xl font-bold mb-2">{s.title}</h3>
+            <p class={`text-xs font-bold uppercase tracking-wide mb-4 ${s.color === 'blue' ? 'text-blue-500' : s.color === 'indigo' ? 'text-indigo-500' : 'text-teal-500'}`}>{s.subtitle}</p>
+            <p class="text-gray-600 text-sm leading-relaxed mb-6">{s.desc}</p>
+            <a href={s.link} class={`font-semibold text-sm hover:underline flex items-center ${s.color === 'blue' ? 'text-blue-600' : s.color === 'indigo' ? 'text-indigo-600' : 'text-teal-600'}`}>{s.linkText} <span class="ml-1">→</span></a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SECTION 4: CONTACT (Lightweight)           -->
+  <!-- ========================================== -->
+  <section class="py-16 bg-white border-t border-gray-100">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-10">
+        <p class="text-gray-500 font-medium tracking-wide uppercase text-sm">Get in Touch Directly</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Email -->
+        <div class="bg-gray-50 p-6 rounded-lg flex items-center space-x-4 border border-gray-100">
+          <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center shrink-0">
+            <svg width="20" height="20" class="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 uppercase font-bold mb-1">Email Us</p>
+            <a href={`mailto:${contactEmail}`} class="text-gray-800 font-medium hover:text-blue-600 transition-colors">{contactEmail}</a>
+          </div>
+        </div>
+        <!-- HQ -->
+        <div class="bg-gray-50 p-6 rounded-lg flex items-center space-x-4 border border-gray-100">
+          <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center shrink-0">
+            <svg width="20" height="20" class="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 uppercase font-bold mb-1">Headquarters</p>
+            <p class="text-gray-800 font-medium">{hqCity}</p>
+          </div>
+        </div>
+        <!-- WeChat -->
+        <div class="bg-gray-50 p-6 rounded-lg flex items-center space-x-4 border border-gray-100">
+          <div class="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center shrink-0">
+            <svg width="20" height="20" class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M8.5 14.5c-3.5 0-6.5-2.5-6.5-5.5S5 3.5 8.5 3.5 15 6 15 9s-3 5.5-6.5 5.5zm7 6c-2.5 0-4.5-1.5-4.5-3.5s2-3.5 4.5-3.5 4.5 1.5 4.5 3.5-2 3.5-4.5 3.5z"/></svg>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 uppercase font-bold mb-1">WeChat Consult</p>
+            <p class="text-gray-800 font-medium">Reach us via WhatsApp +852-57775715</p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-12 text-center text-gray-400 text-sm">
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<Footer />
+<BackToTop />

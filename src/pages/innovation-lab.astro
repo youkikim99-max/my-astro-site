@@ -1,0 +1,248 @@
+---
+// 1. 引入基础布局与组件
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+// 2. ✅ 新增：引入 SEO 组件
+import BaseHead from '../components/BaseHead.astro';
+---
+
+<!-- 3. ✅ 新增：在最前面传入 SEO 信息 -->
+<BaseHead 
+  title="创新实验室" 
+  description="加入 Usearch 创新实验室，参与产品实战营与开发者黑客松，与实战派共创未来。"
+  image="/images/lab-share.jpg" 
+/>
+
+<BaseLayout title="创新实验室 | Usearch">
+  <!-- ✅ 4. 在这里引入新的头部 -->
+  <Header />
+
+  <!-- 顶部 Hero 区域 -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="eyebrow">USEARCH · 创新实验室</div>
+      <h1 class="hero-title">
+        加入「创新实验室」<br />
+        与实战派<span class="highlight">共创未来</span>
+      </h1>
+      <p class="hero-desc">
+        从 0 到 1 的产品破局，到硬核代码的技术攻坚。<br />
+        我们提供真实的业务场景与数据支持。在这里，结识懂技术、懂商业的伙伴，在思维碰撞中共同进化。
+      </p>
+    </div>
+  </section>
+  
+  <!-- 核心体系板块 -->
+  <section class="core-systems">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="eyebrow-small">CORE TRACKS</div>
+        <h2>两大核心探索方向</h2>
+        <p>拒绝纸上谈兵。选择你感兴趣的领域，直接参与真实项目的孵化与落地。</p>
+      </div>
+
+      <div class="project-list">
+        <!-- 项目 01 -->
+        <div class="project-item">
+          <div class="project-index">01</div>
+          <div class="project-content">
+            <h3>产品实战营</h3>
+            <div class="tags">
+              <span>商业洞察</span><span>用户体验</span><span>增长策略</span>
+            </div>
+            <div class="project-body">
+              <div class="project-visual">
+                <img src="/images/lab-product.jpg" alt="产品实战营" />
+              </div>
+              <div class="project-text">
+                <p>针对真实商业痛点进行产品设计。从需求分析、原型构建到数据验证，我们在导师带领下完成闭环。这里没有虚构的 Case，只有真刀真枪的市场博弈。</p>
+                <a href="/apply" class="link-arrow">查看正在招募的项目 &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 项目 02 -->
+        <div class="project-item">
+          <div class="project-index">02</div>
+          <div class="project-content">
+            <h3>开发者黑客松</h3>
+            <div class="tags">
+              <span>全栈开发</span><span>AI 应用</span><span>开源共建</span>
+            </div>
+            <div class="project-body">
+              <div class="project-visual">
+                <img src="/images/lab-hackathon.jpg" alt="开发者黑客松" />
+              </div>
+              <div class="project-text">
+                <p>48 小时极限编程挑战。针对特定技术难题或 AI 应用场景，组队进行高强度开发。优秀代码将直接入选永思洞察的技术工具库，并获得开源社区推广机会。</p>
+                <a href="/apply" class="link-arrow">查看近期黑客松主题 &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- 社区权益板块 -->
+  <section class="community-value bg-light">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="eyebrow-small">COMMUNITY VALUE</div>
+        <h2>不止于练：解锁「实验室」四大权益</h2>
+        <p>在算法喧嚣的时代，我们提供一个真正有深度、有温度的技术产品避风港。</p>
+      </div>
+
+      <div class="grid-4">
+        <!-- 权益 1: 同频同道结交 -->
+        <div class="card">
+          <div class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </div>
+          <h4>同频同道结交</h4>
+          <p>汇聚全国 1000+ 产品总监、架构师与企业创始人。打破行业壁垒，在高质量的交流环境中结交同行好手。</p>
+        </div>
+        <!-- 权益 2: 大牛常驻答疑 -->
+        <div class="card">
+          <div class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+          </div>
+          <h4>大牛常驻答疑</h4>
+          <p>资深技术专家与产品顾问团队常驻社群。拒绝纸上谈兵与模板应答，针对你在实际工作中遇到的难点随时解答。</p>
+        </div>
+        <!-- 权益 3: 独家资产共享 -->
+        <div class="card">
+          <div class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+          </div>
+          <h4>独家资产共享</h4>
+          <p>社群学员专享的内部云盘。海量精选行业深度白皮书、可直接套用的 PRD 模板、内部案例库以及前沿 AI 指令集。</p>
+        </div>
+        <!-- 权益 4: 职业加速引擎 -->
+        <div class="card">
+          <div class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path></svg>
+          </div>
+          <h4>职业加速引擎</h4>
+          <p>优秀成员可直接获得永思咨询或合作企业的内推机会。我们将你的实战成果转化为职业生涯的加速器。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 参与流程 -->
+  <section class="join-process">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2>三步开启实验室之旅</h2>
+      </div>
+      
+      <div class="process-steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h4>浏览项目或赛事</h4>
+          <p>进入上方的《产品实战营》或《黑客松》详情页，了解当前正在进行的挑战题目。</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h4>提交申请与组队</h4>
+          <p>填写报名表单，展示你的技能栈。系统会自动为你匹配互补的队友，或允许你自带队伍。</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h4>入驻实验室开干</h4>
+          <p>通过审核后，你将获得专属的项目文档权限与导师联系方式，正式开启共创之旅。</p>
+        </div>
+      </div>
+      
+      <div class="cta-container">
+        <a href="/apply" class="btn-primary">立即加入创新实验室</a>
+      </div>
+    </div>
+  </section>
+  <style>
+    :root {
+      --primary-color: #2563EB;
+      --text-main: #1F2937;
+      --text-secondary: #6B7280;
+      --bg-light: #F9FAFB;
+      --border-color: #E5E7EB;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .text-center { text-align: center; }
+    
+    /* Hero Section */
+    .hero-section { padding: 100px 0 80px; text-align: center; }
+    .eyebrow { font-size: 0.875rem; font-weight: 600; color: var(--primary-color); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; }
+    .hero-title { font-size: 3rem; font-weight: 800; line-height: 1.2; color: var(--text-main); margin-bottom: 24px; }
+    .hero-title .highlight { color: var(--primary-color); font-style: italic; }
+    .hero-desc { font-size: 1.125rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto; line-height: 1.6; }
+
+    /* Core Systems */
+    .core-systems { padding: 60px 0; }
+    .section-header { margin-bottom: 60px; }
+    .section-header h2 { font-size: 2rem; font-weight: 700; color: var(--text-main); margin-bottom: 12px; }
+    .section-header p { color: var(--text-secondary); }
+    .eyebrow-small { font-size: 0.75rem; color: #9CA3AF; letter-spacing: 0.1em; margin-bottom: 8px; text-transform: uppercase; }
+
+    .project-list { border-top: 1px solid var(--border-color); }
+    .project-item { display: flex; gap: 40px; padding: 60px 0; border-bottom: 1px solid var(--border-color); }
+    .project-index { font-size: 3rem; font-weight: 900; color: #E5E7EB; line-height: 1; }
+    .project-content { flex: 1; }
+    .project-content h3 { font-size: 1.75rem; font-weight: 700; margin-bottom: 12px; }
+    .tags { display: flex; gap: 12px; margin-bottom: 24px; font-size: 0.875rem; color: var(--text-secondary); }
+    .tags span::after { content: "/"; margin-left: 12px; color: #D1D5DB; }
+    .tags span:last-child::after { content: ""; }
+
+    .project-body { display: flex; gap: 40px; align-items: flex-start; }
+    .project-visual { width: 240px; height: 160px; border-radius: 8px; flex-shrink: 0; overflow: hidden; }
+    .project-visual img { width: 100%; height: 100%; object-fit: cover; }
+    .project-text p { color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px; }
+    .link-arrow { color: var(--primary-color); font-weight: 600; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.2s; }
+    .link-arrow:hover { border-bottom-color: var(--primary-color); }
+
+    /* Community Value Grid */
+    .community-value { background-color: var(--bg-light); padding: 80px 0; }
+    .grid-4 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .card { background: white; padding: 32px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); transition: transform 0.2s; }
+    .card:hover { transform: translateY(-4px); }
+    .card .icon { 
+        margin-bottom: 16px;
+        width: 48px; height: 48px;
+        display: flex; align-items: center; justify-content: center;
+        background: #F0F5FF; border-radius: 12px; color: var(--primary-color); 
+    }
+    .card h4 { font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; color: var(--text-main); }
+    .card p { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; }
+
+    /* Process Steps */
+    .join-process { padding: 100px 0; }
+    .process-steps { display: flex; justify-content: space-between; margin-top: 60px; margin-bottom: 60px; position: relative; }
+    .process-steps::before { content: ""; position: absolute; top: 24px; left: 50px; right: 50px; height: 1px; background: #E5E7EB; z-index: 0; }
+    .step { position: relative; z-index: 1; text-align: center; flex: 1; padding: 0 20px; }
+    .step-num { width: 48px; height: 48px; background: white; border: 1px solid var(--border-color); color: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin: 0 auto 20px; font-size: 1.25rem; }
+    .step h4 { font-size: 1.125rem; font-weight: 700; margin-bottom: 8px; }
+    .step p { font-size: 0.9rem; color: var(--text-secondary); }
+
+    .cta-container { text-align: center; }
+    .btn-primary { display: inline-block; background-color: var(--primary-color); color: white; padding: 16px 32px; border-radius: 8px; font-weight: 600; text-decoration: none; transition: background 0.2s; }
+    .btn-primary:hover { background-color: #1D4ED8; }
+
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.25rem; }
+      .project-item { flex-direction: column; gap: 20px; }
+      .project-body { flex-direction: column; }
+      .project-visual { width: 100%; height: 200px; }
+      .grid-4 { grid-template-columns: 1fr; }
+      .process-steps { flex-direction: column; gap: 40px; }
+      .process-steps::before { display: none; }
+    }
+  </style>
+  <!-- ✅ 2. 在这里引入新的底部 -->
+  <Footer />
+</BaseLayout>
