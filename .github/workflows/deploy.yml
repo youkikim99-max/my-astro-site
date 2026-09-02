@@ -27,7 +27,7 @@ jobs:
         run: npm run build
 
       - name: 通过 FTP 上传到阿里云
-        uses: SamKirkland/FTP-Deploy-Action@4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: byu4517730001.my3w.com
           username: byu4517730001
