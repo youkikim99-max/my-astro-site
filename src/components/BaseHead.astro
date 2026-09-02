@@ -2,8 +2,12 @@
 // 0. 引入全局样式（确保博客文章等独立布局页面也能正确加载样式）
 import '../styles/global.css';
 
-// 1. 导入网站默认标题
-import { SITE_TITLE as DEFAULT_SITE_TITLE } from '../consts';
+// 1. 导入站点默认信息（标题、描述、关键词）
+import {
+  SITE_TITLE as DEFAULT_SITE_TITLE,
+  SITE_DESCRIPTION as DEFAULT_SITE_DESCRIPTION,
+  SITE_KEYWORDS as DEFAULT_SITE_KEYWORDS,
+} from '../consts';
 
 // 2. 接收外部传入的参数
 // 定义 Props 接口，image 可以是字符串，也可以是包含 url 的对象
@@ -11,11 +15,22 @@ interface Props {
   title?: string;
   description?: string;
   image?: string | { url: string };
+  keywords?: string;
+  /** 设为 true 时标题原样输出，不再追加站点名（用于首页品牌名在前的场景） */
+  fullTitle?: boolean;
 }
-const { title, description, image } = Astro.props;
+const { title, description, image, keywords, fullTitle } = Astro.props;
 
 // 3. 拼接网页标题
-const pageTitle = title ? `${title} | ${DEFAULT_SITE_TITLE}` : DEFAULT_SITE_TITLE;
+const pageTitle = fullTitle
+  ? title || DEFAULT_SITE_TITLE
+  : title
+    ? `${title} | ${DEFAULT_SITE_TITLE}`
+    : DEFAULT_SITE_TITLE;
+
+// 描述与关键词：未显式传入时回退到站点默认值
+const metaDescription = description || DEFAULT_SITE_DESCRIPTION;
+const metaKeywords = keywords || DEFAULT_SITE_KEYWORDS;
 
 // 4. 获取当前页面的规范链接 (Canonical URL)
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -42,7 +57,10 @@ const ogImage = new URL(ogImageUrl, Astro.site).href;
 <title>{pageTitle}</title>
 
 <!-- 网页描述 -->
-{description && <meta name="description" content={description} />}
+<meta name="description" content={metaDescription} />
+
+<!-- 关键词（面向百度等中文搜索引擎） -->
+<meta name="keywords" content={metaKeywords} />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
@@ -67,7 +85,7 @@ const ogImage = new URL(ogImageUrl, Astro.site).href;
      Open Graph (微信、Facebook、LinkedIn 等社交分享)
      ========================================= -->
 <meta property="og:title" content={pageTitle} />
-<meta property="og:description" content={description || DEFAULT_SITE_TITLE} />
+<meta property="og:description" content={metaDescription} />
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:image" content={ogImage} />
 <meta property="og:type" content="website" />
@@ -77,7 +95,7 @@ const ogImage = new URL(ogImageUrl, Astro.site).href;
      ========================================= -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={pageTitle} />
-<meta name="twitter:description" content={description || DEFAULT_SITE_TITLE} />
+<meta name="twitter:description" content={metaDescription} />
 <meta name="twitter:image" content={ogImage} />
 
 <meta name="generator" content={Astro.generator} />

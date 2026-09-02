@@ -3,7 +3,6 @@ import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import BackToTop from '../../components/BackToTop.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 
 // 定义页面专属的青蓝色主题色 (松石绿)
 const THEME_COLOR = '#0f766e'; 
@@ -39,7 +38,7 @@ const services = [
 <!doctype html>
 <html lang="zh-CN">
   <head>
-    <BaseHead title={`管理咨询 - ${SITE_TITLE}`} description="方案落地，才算胜仗。提供驻场陪跑、结果对赌与资源嫁接的管理咨询服务。" />
+    <BaseHead title="管理咨询" description="方案落地，才算胜仗。提供驻场陪跑、结果对赌与资源嫁接的管理咨询服务。" />
     <style>
       /* 简单的过渡动画 */
       .fade-in-up { animation: fadeInUp 0.6s ease-out forwards; opacity: 0; transform: translateY(20px); }

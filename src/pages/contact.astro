@@ -3,7 +3,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import BackToTop from '../components/BackToTop.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { SITE_DESCRIPTION } from '../consts';
 
 // 定义联系人数据
 const contacts = [
@@ -33,7 +33,7 @@ const companyPhone = '010-85150202';
 <!doctype html>
 <html lang="zh-CN">
   <head>
-    <BaseHead title={`联系我们 - ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+    <BaseHead title="联系我们" description={SITE_DESCRIPTION} />
     <style>
       /* 简单的自定义样式，确保字体和间距完美 */
       .contact-card {

@@ -3,7 +3,6 @@ import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import BackToTop from '../../components/BackToTop.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 
 // 定义页面专属的深海蓝主题色
 const THEME_COLOR = '#1e3a8a'; // 对应之前的 border-t-[#1e3a8a]
@@ -39,7 +38,7 @@ const services = [
 <!doctype html>
 <html lang="zh-CN">
   <head>
-    <BaseHead title={`数据挖掘 - ${SITE_TITLE}`} description="看透本质，才能破局。提供三源交叉验证、AI预测与7天极速交付的数据挖掘服务。" />
+    <BaseHead title="数据挖掘" description="看透本质，才能破局。提供三源交叉验证、AI预测与7天极速交付的数据挖掘服务。" />
     <style>
       /* 简单的过渡动画 */
       .fade-in-up { animation: fadeInUp 0.6s ease-out forwards; opacity: 0; transform: translateY(20px); }

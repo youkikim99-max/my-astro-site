@@ -3,7 +3,6 @@ import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import BackToTop from '../../components/BackToTop.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 
 // 定义页面专属的靛青色主题色 (岩灰紫)
 const THEME_COLOR = '#4338ca'; 
@@ -39,7 +38,7 @@ const services = [
 <!doctype html>
 <html lang="zh-CN">
   <head>
-    <BaseHead title={`市场调查 - ${SITE_TITLE}`} description="看清战场，才敢开枪。提供深度访谈、实地走访与神秘顾客等一手市场调查服务。" />
+    <BaseHead title="市场调查" description="看清战场，才敢开枪。提供深度访谈、实地走访与神秘顾客等一手市场调查服务。" />
     <style>
       /* 简单的过渡动画 */
       .fade-in-up { animation: fadeInUp 0.6s ease-out forwards; opacity: 0; transform: translateY(20px); }
