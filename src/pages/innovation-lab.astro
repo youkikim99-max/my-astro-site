@@ -4,18 +4,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
-// 2. ✅ 新增：引入 SEO 组件
-import BaseHead from '../components/BaseHead.astro';
 ---
 
-<!-- 3. ✅ 新增：在最前面传入 SEO 信息 -->
-<BaseHead 
+<BaseLayout 
   title="创新实验室" 
   description="加入 Usearch 创新实验室，参与产品实战营与开发者黑客松，与实战派共创未来。"
-  image="/images/lab-share.jpg" 
-/>
-
-<BaseLayout title="创新实验室 | Usearch">
+  image="/images/lab-share.jpg"
+>
   <!-- ✅ 4. 在这里引入新的头部 -->
   <Header />
 
