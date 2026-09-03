@@ -76,7 +76,7 @@ const normalizeCategory = (tag) => {
         const category = normalizeCategory(categorySource);
 
         return (
-          <article class="blog-card group bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-slate-100 flex flex-col h-full" data-category={category.name}>
+          <article class="group bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-slate-100 flex flex-col h-full">
             <div class="aspect-video w-full overflow-hidden bg-slate-100 relative">
               {coverImage ? (
                 <img src={coverImage} alt={post.data.title} class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" loading="lazy" />
@@ -142,7 +142,7 @@ const normalizeCategory = (tag) => {
           const category = normalizeCategory(categorySource);
 
           return (
-            <article class="blog-card post-card group flex flex-col md:flex-row bg-white rounded-xl p-4 md:p-6 border border-slate-100 hover:shadow-lg transition-all duration-300 gap-4 md:gap-6 w-full" data-category={category.name}>              
+            <article class="post-card group flex flex-col md:flex-row bg-white rounded-xl p-4 md:p-6 border border-slate-100 hover:shadow-lg transition-all duration-300 gap-4 md:gap-6 w-full" data-category={category.name}>              
               {/* 左侧：文字区域 */}
               <div class="flex-1 flex flex-col justify-center order-2 md:order-1">
                 <div class="flex items-center gap-3 text-xs mb-3">
@@ -195,7 +195,7 @@ const normalizeCategory = (tag) => {
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const buttons = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.blog-card');
+    const cards = document.querySelectorAll('.post-card');
 
     buttons.forEach(btn => {
       btn.addEventListener('click', () => {
