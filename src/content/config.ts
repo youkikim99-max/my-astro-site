@@ -13,6 +13,7 @@ const blog = defineCollection({
     // ✅ 使用传入的 image() 验证器来处理社交分享图
     image: image().optional(),
     author: z.string(),
+    category: z.string().optional(),
     tags: z.array(z.string()).default([]),
     readingTime: z.number().optional(),
   }),

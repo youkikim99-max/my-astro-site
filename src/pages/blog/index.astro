@@ -72,7 +72,8 @@ const normalizeCategory = (tag) => {
         const link = `/blog/${post.id}/`;
         const rawImage = post.data.image?.url || post.data.heroImage;
         const coverImage = fixImagePath(rawImage);
-        const category = normalizeCategory(post.data.tags && post.data.tags.length > 0 ? post.data.tags[0] : '');
+        const categorySource = (post.data.category || '').trim() || (post.data.tags && post.data.tags.length > 0 ? post.data.tags[0] : '');
+        const category = normalizeCategory(categorySource);
 
         return (
           <article class="group bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-slate-100 flex flex-col h-full">
@@ -137,7 +138,8 @@ const normalizeCategory = (tag) => {
           const link = `/blog/${post.id}/`;
           const rawImage = post.data.image?.url || post.data.heroImage;
           const coverImage = fixImagePath(rawImage);
-          const category = normalizeCategory(post.data.tags && post.data.tags.length > 0 ? post.data.tags[0] : '');
+          const categorySource = (post.data.category || '').trim() || (post.data.tags && post.data.tags.length > 0 ? post.data.tags[0] : '');
+          const category = normalizeCategory(categorySource);
 
           return (
             <article class="post-card group flex flex-col md:flex-row bg-white rounded-xl p-4 md:p-6 border border-slate-100 hover:shadow-lg transition-all duration-300 gap-4 md:gap-6 w-full" data-category={category.name}>              
