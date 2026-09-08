@@ -3,7 +3,7 @@ title: "供应链重构：在“黑天鹅”常态化的2026，如何打造“�
 description: "当极致效率撞上黑天鹅常态化，全球供应链的竞争逻辑已从“谁更便宜”转向“谁更稳健”。本文深度拆解从Just in Time到Just in Case的范式转移，以及“中国+N”弹性网络的落地实战。"
 pubDate: "2026-08-23"
 author: "永思咨询" 
-category: "商业与管理洞察" 
+category: "商业管理" 
 tags: ["供应链管理", "全球化战略", "风险控制"]
 slug: "2026-supply-chain-anti-fragile"
 image:

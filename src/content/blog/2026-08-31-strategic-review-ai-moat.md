@@ -3,7 +3,7 @@ title: "战略复盘：为什么你的“核心壁垒”，正在被AI和竞争�
 description: "AI普及带来的技术平权，正在抹平所有浅层的竞争差距。本文拆解三类正在失效的伪壁垒，探讨企业如何搭建无法被复刻的真实护城河。"
 pubDate: 2026-08-31
 author: "永思咨询" 
-category: "商业与管理洞察" 
+category: "商业管理" 
 tags: ["战略复盘", "AI商业落地", "企业护城河"]
 slug: "2026-08-31-strategic-review-ai-moat"
 image:

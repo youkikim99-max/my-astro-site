@@ -3,7 +3,7 @@ title: "告别“内卷式”价格战：新能源车企出海，如何靠“体
 description: "当出海从'整车贸易'转向'产业扎根'，低价不再是护城河。本文拆解头部车企如何通过本地化产能、全生命周期服务与产业链协同，在全球市场跨越'规模陷阱'，实现价值跃升。"
 pubDate: 2026-08-19
 author: "永思咨询" 
-category: "商业与管理洞察" 
+category: "商业管理" 
 tags: ["新能源出海", "品牌溢价", "产业链协同"]
 slug: "2026-nev-overseas-ecosystem-high-premium"
 image:

@@ -3,6 +3,7 @@ title: "低空经济的冷思考：跨越技术自嗨，2026如何跑通商业�
 description: "2026年，低空经济正面临冰与火之歌。本文深度拆解制约腾飞的三大隐形枷锁，探讨如何从政策驱动迈向市场驱动，精准卡位万亿赛道。"
 pubDate: "2026-08-30"
 author: "永思咨询"
+category: "商业管理"
 image:
   url: "/images/20260830-low-altitude-economy-commercialization.jpg"
   alt: "低空经济商业化落地概念图"

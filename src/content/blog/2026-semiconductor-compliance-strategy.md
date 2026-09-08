@@ -3,7 +3,7 @@ title: "2026半导体出海实战：如何避开合规暗礁，把技术优势�
 description: "当出海从产品贸易转向产能重构，合规已不再是后台职能，而是决定订单生死的前线战略。本文拆解双向监管下的破局样本与服务逻辑。"
 pubDate: 2026-08-19
 author: "永思咨询" 
-category: "AI产业研究" 
+category: "实战案例" 
 tags: ["半导体", "出海战略", "合规风控"]
 slug: "2026-semiconductor-compliance-strategy"
 image:

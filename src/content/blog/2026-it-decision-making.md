@@ -3,6 +3,7 @@ title: "告别参数崇拜：2026年企业IT决策的底线思维与长期主义
 pubDate: 2026-08-12
 description: "当AI的加速撞上精明的消费，企业决策者需要的不是更快的油门，而是更稳的方向盘。本文探讨从追求上限到守住底线的决策范式转变。"
 author: "永思咨询"
+category: "实战案例"
 slug: "2026-it-decision-making"
 tags: ["商业洞察", "IT决策", "长期主义"]
 image:

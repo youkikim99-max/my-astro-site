@@ -3,7 +3,7 @@ title: "出海避坑指南：当ESG与数据安全成为“硬门槛”，企业
 description: "2026年，ESG与数据合规已从“道德加分项”演变为“市场准入硬门槛”。本文深度拆解欧盟新电池法、CBAM及GDPR下的实战破局之道，助你将合规压力转化为品牌溢价与核心竞争力。"
 pubDate: 2026-08-23
 author: "永思咨询" 
-category: "商业与管理洞察" 
+category: "商业管理" 
 tags: ["出海合规", "ESG战略", "数据安全", "全球供应链"]
 slug: "2026-overseas-esg-data-compliance-guide"
 image:

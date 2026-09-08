@@ -3,6 +3,7 @@ title: "2026 AI 消费趋势前瞻：从技术狂欢到商业落地的关键一�
 pubDate: 2026-08-11
 description: "2026年，AI正从技术狂欢走向价值重构。To B结构性机遇如何落地？双轨并行与穿越周期的战略定力，本文一一拆解。"
 author: "永思咨询"
+category: "技术前沿"
 slug: "2026-ai-consumer-trends"
 tags: ["AI趋势", "商业落地", "新质生产力"]
 image:

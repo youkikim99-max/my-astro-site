@@ -3,7 +3,7 @@ title: "AI投资进入“算账时代”：从“建算力”到“算Token ROI�
 description: "当AI建设从资源导向转向业务导向，企业必须建立以有效Token与单位经济模型为核心的价值审计体系。本文拆解如何跨越核算黑盒，将AI投入转化为真实的财务回报。"
 pubDate: 2026-08-31
 author: "永思咨询" 
-category: "商业与管理洞察" 
+category: "商业管理" 
 tags: ["AI商业落地", "ROI核算", "企业数字化"]
 slug: "2026-ai-token-roi-accounting"
 image:

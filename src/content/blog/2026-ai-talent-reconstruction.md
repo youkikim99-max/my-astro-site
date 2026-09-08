@@ -3,6 +3,7 @@ title: "AI 时代的人才重构：从代码工人到架构指挥官"
 pubDate: 2026-08-15
 description: "当 AI 能写代码、做设计，人类专家的核心价值在哪里？本文探讨企业如何重塑人才密度，构建人机协同的新型组织力。"
 author: "永思咨询"
+category: "技术前沿"
 slug: "2026-ai-talent-reconstruction"
 tags: ["组织变革", "AI人才", "未来工作"]
 image:
